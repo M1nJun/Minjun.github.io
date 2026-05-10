@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MINJUN LEE // PORTFOLIO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cyan: #00f5ff;
+      --magenta: #ff00cc;
+      --yellow: #ffe600;
+      --green: #39ff14;
+      --purple: #7b2fff;
+      --bg: #07040f;
+      --bg2: #0d0820;
+      --panel: #110e22;
+      --text: #e8e0ff;
+      --dim: #5a5080;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      overflow-x: hidden;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect x='8' y='0' width='4' height='20' fill='%2300f5ff'/%3E%3Crect x='0' y='8' width='20' height='4' fill='%2300f5ff'/%3E%3C/svg%3E") 10 10, crosshair;
+    }
+
+    /* ── CRT OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.18) 2px,
+        rgba(0,0,0,0.18) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.7) 100%);
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(7,4,15,0.92);
+      border-bottom: 2px solid var(--cyan);
+      z-index: 1000;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+      box-shadow: 0 0 20px rgba(0,245,255,0.3);
+    }
+    .nav-logo {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan);
+      letter-spacing: 2px;
+    }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--dim);
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.2s, text-shadow 0.2s;
+      padding: 4px 0;
+      position: relative;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--yellow);
+      text-shadow: 0 0 8px var(--yellow);
+    }
+    .nav-links a.active::before {
+      content: '▶';
+      position: absolute;
+      left: -12px;
+      color: var(--yellow);
+      animation: blink 0.8s step-end infinite;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      min-height: 100vh;
+      padding: 80px 2rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 100vh;
+      max-width: 100%;
+      padding: 0 2rem;
+      position: relative;
+    }
+    .hero-insert {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 11px;
+      color: var(--magenta);
+      letter-spacing: 4px;
+      animation: blink 1s step-end infinite;
+      margin-bottom: 2rem;
+    }
+    .hero-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(22px, 4vw, 44px);
+      color: var(--cyan);
+      text-shadow: 0 0 20px var(--cyan), 0 0 40px var(--cyan), 0 0 80px rgba(0,245,255,0.4);
+      line-height: 1.4;
+      margin-bottom: 1.2rem;
+    }
+    .hero-sub {
+      font-size: 28px;
+      color: var(--yellow);
+      text-shadow: 0 0 10px var(--yellow);
+      margin-bottom: 2.5rem;
+      letter-spacing: 2px;
+    }
+    .hero-tags {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+    .hero-tag {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      padding: 8px 14px;
+      border: 2px solid var(--purple);
+      color: var(--purple);
+      letter-spacing: 1px;
+      text-shadow: 0 0 6px var(--purple);
+      box-shadow: 0 0 8px rgba(123,47,255,0.4), inset 0 0 8px rgba(123,47,255,0.1);
+    }
+    .hero-btns { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      padding: 14px 24px;
+      text-decoration: none;
+      letter-spacing: 2px;
+      position: relative;
+      transition: all 0.15s;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--bg);
+      box-shadow: 0 0 20px var(--cyan), 4px 4px 0 var(--purple);
+    }
+    .btn-primary:hover {
+      background: var(--bg);
+      color: var(--cyan);
+      border: 2px solid var(--cyan);
+      box-shadow: 0 0 30px var(--cyan), 4px 4px 0 var(--purple);
+    }
+    .btn-secondary {
+      border: 2px solid var(--magenta);
+      color: var(--magenta);
+      box-shadow: 0 0 15px rgba(255,0,204,0.3), 4px 4px 0 var(--purple);
+    }
+    .btn-secondary:hover {
+      background: var(--magenta);
+      color: var(--bg);
+      box-shadow: 0 0 30px var(--magenta), 4px 4px 0 var(--purple);
+    }
+    .hero-score {
+      position: absolute;
+      top: 80px; right: 2rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--dim);
+      text-align: right;
+      line-height: 2;
+    }
+    .hero-score span { color: var(--yellow); text-shadow: 0 0 6px var(--yellow); }
+
+    /* ── SECTION HEADER ── */
+    .sec-header {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(13px, 2.5vw, 20px);
+      color: var(--cyan);
+      text-shadow: 0 0 15px var(--cyan);
+      margin-bottom: 0.4rem;
+      letter-spacing: 3px;
+    }
+    .sec-sub {
+      font-size: 20px;
+      color: var(--dim);
+      margin-bottom: 3rem;
+      letter-spacing: 1px;
+    }
+    .divider {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple), transparent);
+      margin-bottom: 3rem;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .avatar-frame {
+      width: 200px;
+      height: 200px;
+      border: 3px solid var(--cyan);
+      box-shadow: 0 0 20px var(--cyan), inset 0 0 20px rgba(0,245,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: var(--panel);
+      position: relative;
+      overflow: hidden;
+    }
+    .avatar-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(0,245,255,0.04) 3px, rgba(0,245,255,0.04) 4px
+      );
+    }
+    .avatar-placeholder {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--cyan);
+      text-align: center;
+      opacity: 0.7;
+      line-height: 2;
+      padding: 1rem;
+    }
+    .avatar-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--magenta);
+      text-shadow: 0 0 8px var(--magenta);
+      margin-top: 0.8rem;
+      letter-spacing: 2px;
+      animation: blink 1.4s step-end infinite;
+    }
+    .about-text { line-height: 1.8; }
+    .about-text p { margin-bottom: 1.2rem; font-size: 22px; color: var(--text); }
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .stat-box {
+      border: 2px solid var(--purple);
+      padding: 1rem;
+      text-align: center;
+      background: var(--panel);
+      box-shadow: 0 0 10px rgba(123,47,255,0.2), inset 0 0 10px rgba(123,47,255,0.05);
+    }
+    .stat-num {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 16px;
+      color: var(--yellow);
+      text-shadow: 0 0 10px var(--yellow);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .stat-lbl { font-size: 16px; color: var(--dim); }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .skill-chip {
+      border: 2px solid var(--dim);
+      padding: 0.8rem 1rem;
+      text-align: center;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--dim);
+      background: var(--panel);
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 1px;
+    }
+    .skill-chip::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 3px;
+      width: 0;
+      transition: width 0.4s ease;
+    }
+    .skill-chip:hover {
+      color: var(--cyan);
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0,245,255,0.3);
+      transform: translateY(-3px);
+    }
+    .skill-chip:hover::before { width: 100%; background: var(--cyan); }
+    .skill-icon { font-size: 24px; display: block; margin-bottom: 0.5rem; }
+    .skills-cat {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--magenta);
+      text-shadow: 0 0 8px var(--magenta);
+      margin: 2rem 0 1rem;
+      letter-spacing: 2px;
+    }
+    .skills-cat:first-of-type { margin-top: 0; }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      border: 2px solid var(--purple);
+      background: var(--panel);
+      padding: 1.5rem;
+      position: relative;
+      transition: all 0.25s;
+      box-shadow: 4px 4px 0 var(--purple), 0 0 10px rgba(123,47,255,0.2);
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: attr(data-num);
+      position: absolute;
+      top: -10px; right: 10px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 60px;
+      color: rgba(123,47,255,0.08);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .project-card:hover {
+      border-color: var(--cyan);
+      box-shadow: 6px 6px 0 var(--cyan), 0 0 25px rgba(0,245,255,0.25);
+      transform: translate(-3px, -3px);
+    }
+    .project-num {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--magenta);
+      margin-bottom: 0.6rem;
+    }
+    .project-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: var(--cyan);
+      text-shadow: 0 0 8px var(--cyan);
+      margin-bottom: 0.8rem;
+      line-height: 1.6;
+    }
+    .project-desc { font-size: 18px; color: var(--text); line-height: 1.6; margin-bottom: 1rem; }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+    .tech-tag {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px;
+      padding: 4px 8px;
+      background: rgba(0,245,255,0.1);
+      border: 1px solid rgba(0,245,255,0.3);
+      color: var(--cyan);
+    }
+    .project-links { display: flex; gap: 1rem; }
+    .project-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--yellow);
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: text-shadow 0.2s;
+    }
+    .project-link:hover { text-shadow: 0 0 10px var(--yellow); }
+
+    /* ── EXPERIENCE ── */
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--cyan), var(--purple), var(--magenta));
+      box-shadow: 0 0 10px var(--cyan);
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      border: 2px solid var(--panel);
+      background: var(--panel);
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .tl-item:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0,245,255,0.15);
+    }
+    .tl-item::before {
+      content: '●';
+      position: absolute;
+      left: -2.6rem;
+      top: 1.4rem;
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan);
+      font-size: 16px;
+    }
+    .tl-date {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--magenta);
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+    .tl-role {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: var(--yellow);
+      text-shadow: 0 0 8px var(--yellow);
+      margin-bottom: 0.4rem;
+      line-height: 1.6;
+    }
+    .tl-company {
+      font-size: 22px;
+      color: var(--cyan);
+      margin-bottom: 0.8rem;
+    }
+    .tl-bullets { list-style: none; }
+    .tl-bullets li {
+      font-size: 18px;
+      color: var(--text);
+      padding: 0.3rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.5;
+    }
+    .tl-bullets li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+    }
+
+    /* ── EDUCATION ── */
+    .edu-card {
+      border: 2px solid var(--yellow);
+      background: var(--panel);
+      padding: 2rem;
+      box-shadow: 4px 4px 0 var(--yellow), 0 0 20px rgba(255,230,0,0.1);
+      max-width: 600px;
+    }
+    .edu-badge {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--bg);
+      background: var(--yellow);
+      padding: 4px 10px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .edu-school {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 12px;
+      color: var(--yellow);
+      text-shadow: 0 0 10px var(--yellow);
+      margin-bottom: 0.4rem;
+      line-height: 1.6;
+    }
+    .edu-degree { font-size: 22px; color: var(--text); margin-bottom: 0.6rem; }
+    .edu-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .edu-meta span {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--dim);
+      letter-spacing: 1px;
+    }
+    .edu-meta span strong { color: var(--green); }
+
+    /* ── CONTACT ── */
+    #contact {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .continue-box {
+      border: 3px solid var(--cyan);
+      padding: 3rem 4rem;
+      background: var(--panel);
+      box-shadow: 0 0 40px rgba(0,245,255,0.2), 6px 6px 0 var(--purple);
+      max-width: 600px;
+      width: 100%;
+    }
+    .continue-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(16px, 3vw, 26px);
+      color: var(--cyan);
+      text-shadow: 0 0 20px var(--cyan);
+      margin-bottom: 0.8rem;
+      animation: blink 1.2s step-end infinite;
+    }
+    .continue-sub { font-size: 22px; color: var(--dim); margin-bottom: 2.5rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; align-items: center; }
+    .contact-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      color: var(--text);
+      text-decoration: none;
+      padding: 12px 24px;
+      border: 2px solid var(--dim);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 320px;
+      justify-content: flex-start;
+      transition: all 0.2s;
+      letter-spacing: 1px;
+    }
+    .contact-link:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0,245,255,0.3);
+      transform: translateX(6px);
+    }
+    .contact-link:hover .cl-arrow { opacity: 1; }
+    .cl-icon { font-size: 18px; width: 24px; }
+    .cl-label { flex: 1; }
+    .cl-arrow { opacity: 0; transition: opacity 0.2s; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 2px solid var(--panel);
+      text-align: center;
+      padding: 2rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--dim);
+      letter-spacing: 2px;
+    }
+    footer span { color: var(--magenta); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    @keyframes scanline {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes glitch {
+      0%,100% { text-shadow: 0 0 20px var(--cyan), 0 0 40px var(--cyan); transform: none; }
+      92% { transform: skew(-0.5deg); }
+      94% { transform: skew(0.5deg); clip-path: inset(20% 0 30% 0); text-shadow: -3px 0 var(--magenta), 3px 0 var(--cyan); }
+      96% { transform: none; clip-path: none; }
+    }
+
+    .hero-name { animation: glitch 6s ease-in-out infinite; }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Running scanline effect */
+    .scanline-run {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background: linear-gradient(transparent, rgba(0,245,255,0.04), transparent);
+      animation: scanline 5s linear infinite;
+      pointer-events: none;
+      z-index: 9997;
+    }
+
+    @media (max-width: 700px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: repeat(2, 1fr); }
+      .continue-box { padding: 2rem 1.5rem; }
+      .contact-link { width: 100%; }
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 0.8rem; }
+      .nav-links a { font-size: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="scanline-run"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MJ.EXE</div>
+  <ul class="nav-links">
+    <li><a href="#about">PLAYER</a></li>
+    <li><a href="#skills">SKILLS</a></li>
+    <li><a href="#projects">STAGES</a></li>
+    <li><a href="#experience">HISTORY</a></li>
+    <li><a href="#education">RANK</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-score">
+    SCORE<br><span>038000</span><br><br>
+    HI-SCORE<br><span>099999</span>
+  </div>
+  <p class="hero-insert">— INSERT COIN —</p>
+  <h1 class="hero-name">MINJUN LEE</h1>
+  <p class="hero-sub">SOFTWARE ENGINEER</p>
+  <div class="hero-tags">
+    <span class="hero-tag">FULL-STACK</span>
+    <span class="hero-tag">COMPUTER VISION</span>
+    <span class="hero-tag">MOBILE</span>
+    <span class="hero-tag">CLOUD / AWS</span>
+  </div>
+  <div class="hero-btns">
+    <a href="#projects" class="btn btn-primary">▶ PLAY</a>
+    <a href="#contact" class="btn btn-secondary">✉ CONTACT</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="fade-in">
+    <p class="sec-header">// PLAYER 1</p>
+    <p class="sec-sub">ABOUT ME</p>
+    <div class="divider"></div>
+    <div class="about-grid">
+      <div>
+        <div class="avatar-frame">
+          <div class="avatar-placeholder">
+            📷<br><br>PHOTO<br>COMING<br>SOON
+          </div>
+        </div>
+        <p class="avatar-label">▶ PLAYER 1</p>
+      </div>
+      <div class="about-text">
+        <p>Hey! I'm Minjun — a CS grad from Lawrence University now working as a Software Engineer at LG Energy Solution, building computer vision systems for EV battery manufacturing.</p>
+        <p>I love shipping things that real people actually use. My proudest project? A ride-catching app adopted by my whole university — now live on both the App Store and Google Play.</p>
+        <p>I speak four languages, served in the Korean military, and am always chasing the next interesting problem to solve.</p>
+        <div class="about-stats">
+          <div class="stat-box">
+            <span class="stat-num">3.8</span>
+            <span class="stat-lbl">GPA</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">4</span>
+            <span class="stat-lbl">LANGUAGES</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">2</span>
+            <span class="stat-lbl">APPS SHIPPED</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="fade-in">
+    <p class="sec-header">// POWER-UPS</p>
+    <p class="sec-sub">TECHNICAL SKILLS</p>
+    <div class="divider"></div>
+
+    <p class="skills-cat">◈ LANGUAGES</p>
+    <div class="skills-grid">
+      <div class="skill-chip"><span class="skill-icon">☕</span>JAVA</div>
+      <div class="skill-chip"><span class="skill-icon">🐍</span>PYTHON</div>
+      <div class="skill-chip"><span class="skill-icon">⚙️</span>C / C++</div>
+      <div class="skill-chip"><span class="skill-icon">🌐</span>JAVASCRIPT</div>
+      <div class="skill-chip"><span class="skill-icon">📱</span>SWIFT</div>
+      <div class="skill-chip"><span class="skill-icon">🧬</span>HTML / CSS</div>
+    </div>
+
+    <p class="skills-cat">◈ FRAMEWORKS & LIBRARIES</p>
+    <div class="skills-grid">
+      <div class="skill-chip"><span class="skill-icon">⚛️</span>REACT</div>
+      <div class="skill-chip"><span class="skill-icon">📲</span>REACT NATIVE</div>
+      <div class="skill-chip"><span class="skill-icon">🍃</span>SPRING BOOT</div>
+      <div class="skill-chip"><span class="skill-icon">🧠</span>TENSORFLOW</div>
+      <div class="skill-chip"><span class="skill-icon">🔢</span>NUMPY</div>
+    </div>
+
+    <p class="skills-cat">◈ TOOLS & PLATFORMS</p>
+    <div class="skills-grid">
+      <div class="skill-chip"><span class="skill-icon">☁️</span>AWS</div>
+      <div class="skill-chip"><span class="skill-icon">🐳</span>DOCKER</div>
+      <div class="skill-chip"><span class="skill-icon">🗄️</span>SQL / MYSQL</div>
+      <div class="skill-chip"><span class="skill-icon">🔁</span>GITHUB ACTIONS</div>
+      <div class="skill-chip"><span class="skill-icon">🐧</span>LINUX</div>
+      <div class="skill-chip"><span class="skill-icon">🗺️</span>GOOGLE MAPS API</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="fade-in">
+    <p class="sec-header">// SELECT STAGE</p>
+    <p class="sec-sub">DEVELOPER PROJECTS</p>
+    <div class="divider"></div>
+    <div class="projects-grid">
+
+      <div class="project-card" data-num="1">
+        <p class="project-num">STAGE 01</p>
+        <p class="project-title">LU CAMPUS SAFETY APP</p>
+        <p class="project-desc">Production ride-catching platform adopted by Lawrence University. Supports real-time ride requests, facility access, and safety assistance for students, faculty, and officers. Live on App Store & Google Play.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">REACT NATIVE</span>
+          <span class="tech-tag">SPRING BOOT</span>
+          <span class="tech-tag">AWS</span>
+          <span class="tech-tag">MYSQL</span>
+          <span class="tech-tag">DOCKER</span>
+          <span class="tech-tag">GITHUB ACTIONS</span>
+          <span class="tech-tag">GOOGLE MAPS API</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/M1nJun" target="_blank" class="project-link">▶ GITHUB</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-num="2">
+        <p class="project-num">STAGE 02</p>
+        <p class="project-title">AI FITNESS COACH</p>
+        <p class="project-desc">HackHarvard 2023 project — a personalized AI coach that generates customized workout plans from fitness goals, sleep patterns, and caloric data pulled from wearable devices.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">IONIC REACT</span>
+          <span class="tech-tag">FLASK</span>
+          <span class="tech-tag">LANGCHAIN</span>
+          <span class="tech-tag">OPENAI API</span>
+          <span class="tech-tag">TERRA API</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/M1nJun" target="_blank" class="project-link">▶ GITHUB</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-num="3">
+        <p class="project-num">STAGE 03</p>
+        <p class="project-title">MOCK MALLOC</p>
+        <p class="project-desc">Custom implementation of C's malloc() from scratch — enabling dynamic heap memory allocation with manual control over block sizing, splitting, and coalescing.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">C</span>
+          <span class="tech-tag">SYSTEMS PROGRAMMING</span>
+          <span class="tech-tag">MEMORY MANAGEMENT</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/M1nJun" target="_blank" class="project-link">▶ GITHUB</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-num="4">
+        <p class="project-num">STAGE 04</p>
+        <p class="project-title">WORD AUTOCOMPLETE</p>
+        <p class="project-desc">Text prediction pipeline built on an LSTM neural network — includes custom data preprocessing, numerical encoding, and training on a large corpus to predict the next word in a sequence.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">PYTHON</span>
+          <span class="tech-tag">TENSORFLOW / KERAS</span>
+          <span class="tech-tag">NUMPY</span>
+          <span class="tech-tag">LSTM</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/M1nJun" target="_blank" class="project-link">▶ GITHUB</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-num="5">
+        <p class="project-num">STAGE 05</p>
+        <p class="project-title">STABLE SURFACES RESEARCH</p>
+        <p class="project-desc">CS/Math research at Lawrence University — designed a computation program generating new examples of stable surfaces using graph theory and combinatorics.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">C++</span>
+          <span class="tech-tag">PYTHON</span>
+          <span class="tech-tag">GRAPH THEORY</span>
+          <span class="tech-tag">COMBINATORICS</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/M1nJun" target="_blank" class="project-link">▶ GITHUB</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="fade-in">
+    <p class="sec-header">// HIGH SCORES</p>
+    <p class="sec-sub">WORK EXPERIENCE</p>
+    <div class="divider"></div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <p class="tl-date">AUG 2025 – PRESENT</p>
+        <p class="tl-role">SOFTWARE ENGINEER</p>
+        <p class="tl-company">LG Energy Solution — Holland, MI (On-site)</p>
+        <ul class="tl-bullets">
+          <li>Develop and maintain computer vision inspection systems for EV and ESS battery manufacturing using deep learning models and rule-based algorithms.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <p class="tl-date">JUN 2024 – PRESENT</p>
+        <p class="tl-role">FULL-STACK ENGINEER (INDEPENDENT)</p>
+        <p class="tl-company">LU Campus Safety App</p>
+        <ul class="tl-bullets">
+          <li>Designed, built, and deployed a production-grade ride-catching platform adopted by Lawrence University ("LU Campus Safety" on App Store & Google Play).</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <p class="tl-date">OCT 2023</p>
+        <p class="tl-role">HACKATHON ENGINEER</p>
+        <p class="tl-company">HackHarvard 2023 — Harvard University, Boston, MA</p>
+        <ul class="tl-bullets">
+          <li>Collaborated in a team of 4 to build an AI-powered personalized fitness coach application.</li>
+          <li>Designed the UI in Ionic React; integrated OpenAI via LangChain on a Flask backend.</li>
+          <li>Collected wearable device metrics (sleep, calories) via Terra API.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <p class="tl-date">JUN 2023 – SEP 2023</p>
+        <p class="tl-role">RESEARCH ASSISTANT</p>
+        <p class="tl-company">Lawrence University — Computer Science / Math Research</p>
+        <ul class="tl-bullets">
+          <li>Led research to build a computation program that produces new examples of stable surfaces.</li>
+          <li>Applied graph theory and combinatorics using C++ and Python.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <p class="tl-date">JUN 2021 – DEC 2022</p>
+        <p class="tl-role">SQUAD LEADER</p>
+        <p class="tl-company">3rd Armored Brigade — Ministry of National Defense, Republic of Korea</p>
+        <ul class="tl-bullets">
+          <li>Led a squad during 1.5 years of mandatory military service; honorably discharged.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="fade-in">
+    <p class="sec-header">// ACHIEVEMENTS</p>
+    <p class="sec-sub">EDUCATION</p>
+    <div class="divider"></div>
+    <div class="edu-card">
+      <span class="edu-badge">DEGREE UNLOCKED ✓</span>
+      <p class="edu-school">LAWRENCE UNIVERSITY</p>
+      <p class="edu-degree">Bachelor of Arts — Computer Science</p>
+      <div class="edu-meta">
+        <span>APPLETON, WI</span>
+        <span>GRADUATED: <strong>JUNE 2025</strong></span>
+        <span>GPA: <strong>3.8 / 4.0</strong></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-in" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+    <p class="sec-header" style="text-align:center;">// CONTINUE?</p>
+    <p class="sec-sub" style="text-align:center;margin-bottom:2rem;">LET'S BUILD SOMETHING TOGETHER</p>
+    <div class="continue-box">
+      <p class="continue-title">GAME OVER?</p>
+      <p class="continue-sub">NAH — LET'S KEEP PLAYING.</p>
+      <div class="contact-links">
+        <a href="mailto:lmjg0407@gmail.com" class="contact-link">
+          <span class="cl-icon">✉</span>
+          <span class="cl-label">lmjg0407@gmail.com</span>
+          <span class="cl-arrow">▶</span>
+        </a>
+        <a href="https://www.linkedin.com/in/minjunleesd" target="_blank" class="contact-link">
+          <span class="cl-icon">💼</span>
+          <span class="cl-label">linkedin.com/in/minjunleesd</span>
+          <span class="cl-arrow">▶</span>
+        </a>
+        <a href="https://github.com/M1nJun" target="_blank" class="contact-link">
+          <span class="cl-icon">🐙</span>
+          <span class="cl-label">github.com/M1nJun</span>
+          <span class="cl-arrow">▶</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 MINJUN LEE // BUILT WITH <span>♥</span> AND TOO MUCH CAFFEINE // ALL RIGHTS RESERVED</p>
+</footer>
+
+<script>
+  // ── Active nav highlight on scroll ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // ── Fade-in on scroll ──
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => fadeObserver.observe(el));
+
+  // ── Konami Code easter egg ──
+  const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let ki = 0;
+  document.addEventListener('keydown', e => {
+    if (e.key === KONAMI[ki]) {
+      ki++;
+      if (ki === KONAMI.length) {
+        ki = 0;
+        document.querySelector('.hero-score span').textContent = '999999';
+        const msg = document.createElement('div');
+        msg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:"Press Start 2P",monospace;font-size:20px;color:#ffe600;text-shadow:0 0 20px #ffe600;z-index:99999;text-align:center;pointer-events:none;';
+        msg.innerHTML = '★ CHEAT CODE ★<br><br>+99999 BONUS<br>POINTS!';
+        document.body.appendChild(msg);
+        setTimeout(() => msg.remove(), 3000);
+      }
+    } else { ki = 0; }
+  });
+</script>
+</body>
+</html>
