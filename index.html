@@ -3,24 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minjun Lee — Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Rye&family=Special+Elite&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap" rel="stylesheet">
+<title>Minjun Lee</title>
+<link href="https://fonts.googleapis.com/css2?family=Rye&family=Special+Elite&family=Space+Mono:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
 <style>
-:root {
-  --sand: #E8D5B0;
-  --burnt: #C4622D;
-  --terracotta: #D4845A;
-  --rust: #8B3A1F;
-  --dark: #1A1208;
-  --cream: #F5ECD7;
-  --teal: #2A7C6F;
-  --gold: #C9952A;
-  --sage: #6B7C5A;
-  --midnight: #0D0A1A;
-  --deep: #080510;
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --sand:#E8D5B0;--terracotta:#D4845A;--rust:#8B3A1F;
+  --cream:#F5ECD7;--teal:#2A7C6F;--gold:#C9952A;--sage:#6B7C5A;
+  --midnight:#0D0A1A;--deep:#07040F;
 }
-* { margin:0; padding:0; box-sizing:border-box; }
 
+/* ════════════════════════
+   LANDING SCREEN
+════════════════════════ */
+#landing {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  cursor: default;
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+#landing.hide {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-30px);
+}
+
+/* Sky gradient — deep amber/orange like the inspo */
+#landingCanvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  display: block;
+}
+
+/* Tiny person — clickable */
+#person {
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  z-index: 10;
+  transition: transform .2s;
+}
+#person:hover { transform: translateX(-50%) scale(1.15); }
+
+/* Pulse ring hint */
+#person::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,200,80,.5);
+  animation: pulse 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes pulse {
+  0%,100%{opacity:0;transform:translate(-50%,-50%) scale(.5);}
+  50%{opacity:.6;transform:translate(-50%,-50%) scale(1);}
+}
+
+/* Orbiting symbols canvas — sits above landing bg, behind person */
+#symbolCanvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ════════════════════════
+   RESUME
+════════════════════════ */
 body {
   background-color: var(--deep);
   font-family: 'Special Elite', cursive;
@@ -29,430 +85,176 @@ body {
   overflow-x: hidden;
 }
 
-/* ── STARFIELD ── */
+#resume {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease .3s, transform 1s ease .3s;
+  pointer-events: none;
+}
+#resume.show {
+  opacity: 1;
+  transform: none;
+  pointer-events: all;
+}
+
 .starfield {
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background:
-    radial-gradient(1px 1px at 8% 12%, rgba(255,240,200,.9) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 22% 28%, rgba(255,240,200,.6) 0%,transparent 100%),
-    radial-gradient(1px 1px at 38% 7%, rgba(255,240,200,.8) 0%,transparent 100%),
-    radial-gradient(2px 2px at 55% 18%, rgba(220,200,255,.7) 0%,transparent 100%),
-    radial-gradient(1px 1px at 71% 10%, rgba(255,240,200,.5) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 84% 24%, rgba(255,240,200,.9) 0%,transparent 100%),
-    radial-gradient(1px 1px at 93% 8%, rgba(255,240,200,.6) 0%,transparent 100%),
-    radial-gradient(1px 1px at 14% 44%, rgba(255,240,200,.4) 0%,transparent 100%),
-    radial-gradient(1px 1px at 47% 38%, rgba(255,240,200,.7) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 66% 52%, rgba(200,180,255,.5) 0%,transparent 100%),
-    radial-gradient(1px 1px at 90% 45%, rgba(255,240,200,.8) 0%,transparent 100%),
-    radial-gradient(1px 1px at 5% 68%, rgba(255,240,200,.5) 0%,transparent 100%),
-    radial-gradient(2px 2px at 32% 74%, rgba(255,220,150,.6) 0%,transparent 100%),
-    radial-gradient(1px 1px at 77% 66%, rgba(255,240,200,.8) 0%,transparent 100%),
-    radial-gradient(1px 1px at 19% 85%, rgba(255,240,200,.4) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 58% 88%, rgba(255,240,200,.6) 0%,transparent 100%),
-    radial-gradient(1px 1px at 88% 80%, rgba(255,240,200,.7) 0%,transparent 100%),
-    radial-gradient(1px 1px at 42% 95%, rgba(255,240,200,.5) 0%,transparent 100%);
+    radial-gradient(1px 1px at 8% 12%,rgba(255,240,200,.9) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 22% 28%,rgba(255,240,200,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 38% 7%,rgba(255,240,200,.8) 0%,transparent 100%),
+    radial-gradient(2px 2px at 55% 18%,rgba(220,200,255,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 71% 10%,rgba(255,240,200,.5) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 84% 24%,rgba(255,240,200,.9) 0%,transparent 100%),
+    radial-gradient(1px 1px at 14% 44%,rgba(255,240,200,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 47% 38%,rgba(255,240,200,.7) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 66% 52%,rgba(200,180,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 90% 45%,rgba(255,240,200,.8) 0%,transparent 100%),
+    radial-gradient(2px 2px at 32% 74%,rgba(255,220,150,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 77% 66%,rgba(255,240,200,.8) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 58% 88%,rgba(255,240,200,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 88% 80%,rgba(255,240,200,.7) 0%,transparent 100%);
 }
 
-/* ── ORBITING CANVAS ── */
-#orbitCanvas {
-  position: fixed; inset: 0;
-  pointer-events: none; z-index: 0;
-  width: 100%; height: 100%;
+#resumeOrbitCanvas {
+  position: fixed; top:0; left:0;
+  width:100%; height:100%;
+  pointer-events:none; z-index:0;
 }
 
-/* ── LAYOUT ── */
 .container {
   position: relative; z-index: 1;
-  max-width: 980px;
-  margin: 0 auto;
+  max-width: 980px; margin: 0 auto;
   padding: 60px 24px 140px;
 }
 
-/* ── HEADER ── */
-.header { text-align: center; margin-bottom: 70px; position: relative; }
+/* HEADER */
+.header{text-align:center;margin-bottom:70px;}
+.header-sun{display:block;margin:0 auto 20px;animation:spinSlow 50s linear infinite;transform-origin:center;}
+@keyframes spinSlow{to{transform:rotate(360deg);}}
+.name{font-family:'Rye',serif;font-size:clamp(40px,9vw,88px);color:var(--gold);text-shadow:3px 3px 0 var(--rust),0 0 40px rgba(201,149,42,.3);letter-spacing:.04em;line-height:1;margin-bottom:10px;}
+.name-sub{font-family:'Space Mono',monospace;font-size:12px;color:var(--terracotta);letter-spacing:.35em;text-transform:uppercase;margin-bottom:20px;}
+.divider-row{display:flex;align-items:center;justify-content:center;gap:16px;margin:18px 0;}
+.divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.contact-row{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:11px;color:var(--sand);letter-spacing:.08em;}
+.contact-row a{color:var(--teal);text-decoration:none;transition:color .2s;}
+.contact-row a:hover{color:var(--gold);}
 
-.header-sun {
-  display: block; margin: 0 auto 20px;
-  animation: spinSlow 50s linear infinite;
-  transform-origin: center;
-}
-@keyframes spinSlow { to { transform: rotate(360deg); } }
+/* NAV */
+.nav-strip{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:56px;}
+.nav-btn{font-family:'Special Elite',cursive;font-size:13px;padding:8px 22px;background:transparent;border:1.5px solid rgba(201,149,42,.35);color:var(--sand);cursor:pointer;letter-spacing:.1em;transition:all .25s;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%);}
+.nav-btn:hover,.nav-btn.active{background:rgba(201,149,42,.18);border-color:var(--gold);color:var(--gold);}
 
-.name {
-  font-family: 'Rye', serif;
-  font-size: clamp(40px, 9vw, 88px);
-  color: var(--gold);
-  text-shadow: 3px 3px 0 var(--rust), 0 0 40px rgba(201,149,42,.3);
-  letter-spacing: .04em;
-  line-height: 1;
-  margin-bottom: 10px;
-}
-.name-sub {
-  font-family: 'Space Mono', monospace;
-  font-size: 12px;
-  color: var(--terracotta);
-  letter-spacing: .35em;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-}
-.divider-row {
-  display: flex; align-items: center; justify-content: center;
-  gap: 16px; margin: 18px 0;
-}
-.divider-line { flex:1; height:1px; background: linear-gradient(90deg,transparent,var(--gold),transparent); }
-.contact-row {
-  display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
-  font-family: 'Space Mono', monospace; font-size: 11px; color: var(--sand);
-  letter-spacing: .08em;
-}
-.contact-row a { color: var(--teal); text-decoration: none; transition: color .2s; }
-.contact-row a:hover { color: var(--gold); }
+/* SECTIONS */
+.section{display:none;animation:fadeUp .4s ease;}
+.section.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.sec-header{display:flex;align-items:center;gap:14px;margin-bottom:30px;}
+.sec-header-title{font-family:'Rye',serif;font-size:26px;color:var(--gold);text-shadow:2px 2px 0 var(--rust);white-space:nowrap;}
+.sec-header-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(201,149,42,.5),transparent);}
 
-/* ── NAV ── */
-.nav-strip {
-  display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
-  margin-bottom: 56px;
-}
-.nav-btn {
-  font-family: 'Special Elite', cursive;
-  font-size: 13px;
-  padding: 8px 22px;
-  background: transparent;
-  border: 1.5px solid rgba(201,149,42,.35);
-  color: var(--sand);
-  cursor: pointer;
-  letter-spacing: .1em;
-  transition: all .25s;
-  clip-path: polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%);
-}
-.nav-btn:hover,.nav-btn.active {
-  background: rgba(201,149,42,.18);
-  border-color: var(--gold);
-  color: var(--gold);
-}
+/* CARD */
+.card{background:rgba(22,12,2,.88);border:1px solid rgba(201,149,42,.22);border-radius:2px;padding:26px 30px;margin-bottom:22px;position:relative;backdrop-filter:blur(6px);}
+.tape{position:absolute;height:20px;background:rgba(201,149,42,.28);border:1px solid rgba(201,149,42,.2);top:-10px;}
+.tape-l{width:55px;left:20px;transform:rotate(-1.5deg);}
+.tape-r{width:55px;right:20px;transform:rotate(1.5deg);}
+.card-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--terracotta);letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;}
+.card-title{font-family:'Rye',serif;font-size:18px;color:var(--gold);margin-bottom:4px;}
+.card-body{font-size:13.5px;line-height:1.8;color:var(--sand);}
 
-/* ── SECTIONS ── */
-.section { display:none; animation: fadeUp .4s ease; }
-.section.active { display:block; }
-@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+/* TIMELINE */
+.timeline{position:relative;padding-left:28px;}
+.timeline::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),var(--rust),transparent);}
+.tl-item{position:relative;margin-bottom:32px;}
+.tl-diamond{position:absolute;left:-25px;top:5px;width:11px;height:11px;border:2px solid var(--gold);background:var(--midnight);transform:rotate(45deg);}
+.tl-role{font-family:'Rye',serif;font-size:16px;color:var(--gold);margin-bottom:2px;}
+.tl-where{font-family:'Space Mono',monospace;font-size:10px;color:var(--terracotta);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;}
+.tl-where span{color:var(--sage);margin-left:10px;}
+.tl-bullets{list-style:none;}
+.tl-bullets li{font-size:13px;color:var(--sand);line-height:1.7;padding-left:16px;position:relative;margin-bottom:4px;}
+.tl-bullets li::before{content:'◈';position:absolute;left:0;color:var(--rust);font-size:9px;top:4px;}
 
-.sec-header {
-  display: flex; align-items: center; gap: 14px; margin-bottom: 30px;
-}
-.sec-header-title {
-  font-family: 'Rye', serif;
-  font-size: 26px; color: var(--gold);
-  text-shadow: 2px 2px 0 var(--rust);
-  white-space: nowrap;
-}
-.sec-header-line { flex:1; height:1px; background: linear-gradient(90deg,rgba(201,149,42,.5),transparent); }
+/* TAGS */
+.tag-grid{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;}
+.tag{font-family:'Space Mono',monospace;font-size:10px;padding:4px 11px;border:1px solid rgba(42,124,111,.45);color:#7CC4BA;letter-spacing:.06em;transition:all .2s;cursor:default;}
+.tag:hover{background:rgba(42,124,111,.18);}
+.tag.lang{border-color:rgba(201,149,42,.45);color:#e8c97a;}
+.tag.lang:hover{background:rgba(201,149,42,.12);}
+.tag.tool{border-color:rgba(196,98,45,.45);color:#e8a07a;}
+.tag.tool:hover{background:rgba(196,98,45,.12);}
 
-/* ── CARD ── */
-.card {
-  background: rgba(22,12,2,.88);
-  border: 1px solid rgba(201,149,42,.22);
-  border-radius: 2px;
-  padding: 26px 30px;
-  margin-bottom: 22px;
-  position: relative;
-  backdrop-filter: blur(6px);
-}
-.tape {
-  position: absolute; height: 20px;
-  background: rgba(201,149,42,.28);
-  border: 1px solid rgba(201,149,42,.2);
-  top: -10px;
-}
-.tape-l { width:55px; left:20px; transform:rotate(-1.5deg); }
-.tape-r { width:55px; right:20px; transform:rotate(1.5deg); }
+/* PROJECTS */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;}
+.proj-card{background:rgba(18,10,2,.92);border:1px solid rgba(201,149,42,.2);padding:22px;position:relative;overflow:hidden;cursor:pointer;transition:transform .25s,border-color .25s;}
+.proj-card:hover{transform:translateY(-5px) rotate(.4deg);border-color:rgba(201,149,42,.65);}
+.proj-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--rust),var(--gold),var(--teal));transform:scaleX(0);transform-origin:left;transition:transform .35s;}
+.proj-card:hover::after{transform:scaleX(1);}
+.proj-animal{font-size:30px;margin-bottom:10px;display:block;}
+.proj-name{font-family:'Rye',serif;font-size:15px;color:var(--gold);margin-bottom:5px;}
+.proj-short{font-size:12.5px;color:var(--sand);line-height:1.65;margin-bottom:12px;}
+.proj-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.proj-tag{font-family:'Space Mono',monospace;font-size:9px;padding:3px 7px;background:rgba(42,124,111,.12);border:1px solid rgba(42,124,111,.3);color:#7CC4BA;}
+.click-hint{font-family:'Space Mono',monospace;font-size:10px;color:var(--sage);letter-spacing:.1em;margin-bottom:20px;}
 
-.card-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px; color: var(--terracotta);
-  letter-spacing: .2em; text-transform: uppercase;
-  margin-bottom: 12px;
-}
-.card-title {
-  font-family: 'Rye', serif;
-  font-size: 18px; color: var(--gold); margin-bottom: 4px;
-}
-.card-body { font-size: 13.5px; line-height: 1.8; color: var(--sand); }
+/* COLLAGE */
+.collage{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.collage-tile{background:rgba(22,12,2,.75);border:1px solid rgba(201,149,42,.18);padding:18px 20px;position:relative;}
+.collage-tile.tilt-l{transform:rotate(-1.3deg);}
+.collage-tile.tilt-r{transform:rotate(.9deg);}
+.tile-label{font-family:'Permanent Marker',cursive;font-size:11px;color:var(--terracotta);margin-bottom:5px;}
+.tile-val{font-family:'Rye',serif;font-size:20px;color:var(--gold);}
+.tile-sub{font-size:11.5px;color:var(--sage);font-family:'Space Mono',monospace;margin-top:5px;}
 
-/* ── TIMELINE ── */
-.timeline { position:relative; padding-left:28px; }
-.timeline::before {
-  content:''; position:absolute;
-  left:7px; top:0; bottom:0; width:1px;
-  background: linear-gradient(to bottom,var(--gold),var(--rust),transparent);
-}
-.tl-item { position:relative; margin-bottom:32px; }
-.tl-diamond {
-  position:absolute; left:-25px; top:5px;
-  width:11px; height:11px;
-  border:2px solid var(--gold);
-  background:var(--midnight);
-  transform:rotate(45deg);
-}
-.tl-role { font-family:'Rye',serif; font-size:16px; color:var(--gold); margin-bottom:2px; }
-.tl-where {
-  font-family:'Space Mono',monospace; font-size:10px;
-  color:var(--terracotta); letter-spacing:.15em;
-  text-transform:uppercase; margin-bottom:8px;
-}
-.tl-where span { color:var(--sage); margin-left:10px; }
-.tl-bullets { list-style:none; }
-.tl-bullets li {
-  font-size:13px; color:var(--sand); line-height:1.7;
-  padding-left:16px; position:relative; margin-bottom:4px;
-}
-.tl-bullets li::before {
-  content:'◈'; position:absolute; left:0;
-  color:var(--rust); font-size:9px; top:4px;
-}
+/* SKILL BARS */
+.bar-row{display:flex;align-items:center;gap:12px;margin-bottom:13px;}
+.bar-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--sand);width:155px;flex-shrink:0;letter-spacing:.05em;}
+.bar-track{flex:1;height:8px;background:rgba(255,255,255,.05);overflow:hidden;position:relative;}
+.bar-fill{position:absolute;top:0;left:0;height:100%;background:repeating-linear-gradient(90deg,var(--rust) 0,var(--rust) 5px,transparent 5px,transparent 9px,var(--gold) 9px,var(--gold) 14px,transparent 14px,transparent 18px);animation:barGrow 1.3s ease forwards;}
+@keyframes barGrow{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.bar-pct{font-family:'Space Mono',monospace;font-size:9px;color:var(--terracotta);width:28px;text-align:right;}
 
-/* ── SKILL TAGS ── */
-.tag-grid { display:flex; flex-wrap:wrap; gap:7px; margin-top:12px; }
-.tag {
-  font-family:'Space Mono',monospace; font-size:10px;
-  padding:4px 11px;
-  border:1px solid rgba(42,124,111,.45);
-  color:#7CC4BA;
-  letter-spacing:.06em;
-  transition:all .2s; cursor:default;
-}
-.tag:hover { background:rgba(42,124,111,.18); }
-.tag.lang { border-color:rgba(201,149,42,.45); color:#e8c97a; }
-.tag.lang:hover { background:rgba(201,149,42,.12); }
-.tag.tool { border-color:rgba(196,98,45,.45); color:#e8a07a; }
-.tag.tool:hover { background:rgba(196,98,45,.12); }
+/* GLYPH STRIP */
+.glyph-strip{display:flex;justify-content:center;gap:14px;opacity:.12;flex-wrap:wrap;margin-top:36px;}
 
-/* ── PROJECT GRID ── */
-.proj-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-  gap: 18px;
-}
-.proj-card {
-  background: rgba(18,10,2,.92);
-  border: 1px solid rgba(201,149,42,.2);
-  padding: 22px;
-  position: relative; overflow: hidden;
-  cursor: pointer;
-  transition: transform .25s, border-color .25s;
-}
-.proj-card:hover {
-  transform: translateY(-5px) rotate(.4deg);
-  border-color: rgba(201,149,42,.65);
-}
-.proj-card::after {
-  content:''; position:absolute;
-  bottom:0; left:0; right:0; height:3px;
-  background: linear-gradient(90deg,var(--rust),var(--gold),var(--teal));
-  transform:scaleX(0); transform-origin:left;
-  transition:transform .35s;
-}
-.proj-card:hover::after { transform:scaleX(1); }
-.proj-animal { font-size:30px; margin-bottom:10px; display:block; }
-.proj-name { font-family:'Rye',serif; font-size:15px; color:var(--gold); margin-bottom:5px; }
-.proj-short { font-size:12.5px; color:var(--sand); line-height:1.65; margin-bottom:12px; }
-.proj-tags { display:flex; flex-wrap:wrap; gap:5px; }
-.proj-tag {
-  font-family:'Space Mono',monospace; font-size:9px;
-  padding:3px 7px;
-  background:rgba(42,124,111,.12);
-  border:1px solid rgba(42,124,111,.3);
-  color:#7CC4BA;
-}
-.click-hint {
-  font-family:'Space Mono',monospace; font-size:10px;
-  color:var(--sage); letter-spacing:.1em;
-  margin-bottom:20px;
-}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.88);align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#100800;border:1px solid rgba(201,149,42,.5);max-width:700px;width:100%;position:relative;animation:modalIn .25s ease;margin:auto;}
+@keyframes modalIn{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-header{background:linear-gradient(135deg,rgba(139,58,31,.6),rgba(22,12,2,1));padding:28px 32px 20px;border-bottom:1px solid rgba(201,149,42,.25);position:relative;}
+.modal-tape{position:absolute;top:-10px;left:24px;width:60px;height:20px;background:rgba(201,149,42,.32);border:1px solid rgba(201,149,42,.22);transform:rotate(-1deg);}
+.modal-animal{font-size:36px;margin-bottom:8px;display:block;}
+.modal-title{font-family:'Rye',serif;font-size:22px;color:var(--gold);margin-bottom:4px;}
+.modal-sub{font-family:'Space Mono',monospace;font-size:10px;color:var(--terracotta);letter-spacing:.18em;text-transform:uppercase;}
+.modal-close{position:absolute;top:16px;right:18px;background:none;border:none;color:var(--gold);font-size:20px;cursor:pointer;font-family:'Rye',serif;}
+.modal-close:hover{color:var(--cream);}
+.modal-content{padding:24px 32px 32px;}
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-top:12px;}
+.media-item{position:relative;border:1px solid rgba(201,149,42,.3);overflow:hidden;background:rgba(0,0,0,.4);}
+.media-item img,.media-item video{width:100%;display:block;object-fit:cover;max-height:200px;transition:transform .35s;}
+.media-item:hover img,.media-item:hover video{transform:scale(1.04);}
+.media-item:nth-child(odd){transform:rotate(-1.2deg);}
+.media-item:nth-child(even){transform:rotate(1deg);}
+.media-item:hover{transform:rotate(0) scale(1.03)!important;z-index:10;}
+.media-item::before{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:50px;height:18px;background:rgba(201,149,42,.28);border:1px solid rgba(201,149,42,.18);z-index:2;}
+.media-caption{padding:7px 10px;font-family:'Permanent Marker',cursive;font-size:11px;color:var(--terracotta);background:rgba(10,5,0,.8);}
+.upload-hint{border:1.5px dashed rgba(201,149,42,.3);padding:20px;text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:var(--sage);letter-spacing:.08em;line-height:1.8;margin-top:12px;}
+.upload-hint strong{color:var(--gold);font-weight:400;}
+.modal-desc-title{font-family:'Rye',serif;font-size:15px;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.modal-desc-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(201,149,42,.4),transparent);}
+.modal-desc{font-size:13px;color:var(--sand);line-height:1.85;margin-bottom:18px;}
+.modal-bullets{list-style:none;margin-bottom:18px;}
+.modal-bullets li{font-size:13px;color:var(--sand);line-height:1.75;padding-left:18px;position:relative;margin-bottom:5px;}
+.modal-bullets li::before{content:'◈';position:absolute;left:0;color:var(--rust);font-size:9px;top:4px;}
+.modal-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.modal-link{font-family:'Space Mono',monospace;font-size:10px;padding:8px 16px;border:1px solid rgba(42,124,111,.55);color:#7CC4BA;text-decoration:none;letter-spacing:.1em;transition:all .2s;}
+.modal-link:hover{background:rgba(42,124,111,.2);}
+.modal-link.gh{border-color:rgba(201,149,42,.45);color:var(--gold);}
+.modal-link.gh:hover{background:rgba(201,149,42,.12);}
 
-/* ── MODAL ── */
-.modal-overlay {
-  display:none; position:fixed; inset:0; z-index:200;
-  background:rgba(0,0,0,.88);
-  align-items:flex-start; justify-content:center;
-  padding:30px 16px;
-  overflow-y:auto;
-}
-.modal-overlay.open { display:flex; }
-.modal-box {
-  background:#100800;
-  border:1px solid rgba(201,149,42,.5);
-  max-width:700px; width:100%;
-  padding:0;
-  position:relative;
-  animation:modalIn .25s ease;
-  margin:auto;
-}
-@keyframes modalIn { from{transform:scale(.93);opacity:0} to{transform:scale(1);opacity:1} }
-
-/* scrapbook header strip */
-.modal-header {
-  background:linear-gradient(135deg,rgba(139,58,31,.6),rgba(22,12,2,1));
-  padding:28px 32px 20px;
-  border-bottom:1px solid rgba(201,149,42,.25);
-  position:relative;
-}
-.modal-tape {
-  position:absolute; top:-10px; left:24px;
-  width:60px; height:20px;
-  background:rgba(201,149,42,.32);
-  border:1px solid rgba(201,149,42,.22);
-  transform:rotate(-1deg);
-}
-.modal-animal { font-size:36px; margin-bottom:8px; display:block; }
-.modal-title {
-  font-family:'Rye',serif;
-  font-size:22px; color:var(--gold);
-  margin-bottom:4px;
-}
-.modal-sub {
-  font-family:'Space Mono',monospace;
-  font-size:10px; color:var(--terracotta);
-  letter-spacing:.18em; text-transform:uppercase;
-}
-.modal-close {
-  position:absolute; top:16px; right:18px;
-  background:none; border:none;
-  color:var(--gold); font-size:20px; cursor:pointer;
-  font-family:'Rye',serif; transition:color .2s;
-}
-.modal-close:hover { color:var(--cream); }
-
-.modal-content { padding:24px 32px 32px; }
-
-/* media scrapbook */
-.scrapbook-media {
-  margin-bottom:22px;
-}
-.media-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:12px;
-  margin-top:12px;
-}
-.media-item {
-  position:relative;
-  border:1px solid rgba(201,149,42,.3);
-  overflow:hidden;
-  background:rgba(0,0,0,.4);
-}
-.media-item img,.media-item video {
-  width:100%; display:block;
-  object-fit:cover;
-  transition:transform .35s;
-}
-.media-item:hover img,.media-item:hover video { transform:scale(1.04); }
-/* rotation for scrapbook feel */
-.media-item:nth-child(odd) { transform:rotate(-1.2deg); }
-.media-item:nth-child(even) { transform:rotate(1deg); }
-.media-item:hover { transform:rotate(0) scale(1.03) !important; z-index:10; }
-
-/* tape on media */
-.media-item::before {
-  content:''; position:absolute;
-  top:-8px; left:50%; transform:translateX(-50%);
-  width:50px; height:18px;
-  background:rgba(201,149,42,.28);
-  border:1px solid rgba(201,149,42,.18);
-  z-index:2;
-}
-
-.media-caption {
-  padding:7px 10px;
-  font-family:'Permanent Marker',cursive;
-  font-size:11px; color:var(--terracotta);
-  background:rgba(10,5,0,.8);
-}
-
-.upload-hint {
-  border:1.5px dashed rgba(201,149,42,.3);
-  padding:20px;
-  text-align:center;
-  font-family:'Space Mono',monospace;
-  font-size:11px; color:var(--sage);
-  letter-spacing:.08em; line-height:1.8;
-  margin-top:12px;
-}
-.upload-hint strong { color:var(--gold); font-weight:400; }
-
-.modal-desc-title {
-  font-family:'Rye',serif; font-size:15px; color:var(--gold);
-  margin-bottom:10px;
-  display:flex; align-items:center; gap:10px;
-}
-.modal-desc-title::after {
-  content:''; flex:1; height:1px;
-  background:linear-gradient(90deg,rgba(201,149,42,.4),transparent);
-}
-.modal-desc { font-size:13px; color:var(--sand); line-height:1.85; margin-bottom:18px; }
-.modal-bullets { list-style:none; margin-bottom:18px; }
-.modal-bullets li {
-  font-size:13px; color:var(--sand); line-height:1.75;
-  padding-left:18px; position:relative; margin-bottom:5px;
-}
-.modal-bullets li::before {
-  content:'◈'; position:absolute; left:0;
-  color:var(--rust); font-size:9px; top:4px;
-}
-
-.modal-links { display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
-.modal-link {
-  font-family:'Space Mono',monospace; font-size:10px;
-  padding:8px 16px;
-  border:1px solid rgba(42,124,111,.55);
-  color:#7CC4BA; text-decoration:none;
-  letter-spacing:.1em; transition:all .2s;
-}
-.modal-link:hover { background:rgba(42,124,111,.2); }
-.modal-link.gh { border-color:rgba(201,149,42,.45); color:var(--gold); }
-.modal-link.gh:hover { background:rgba(201,149,42,.12); }
-
-/* aztec glyph strip */
-.glyph-strip {
-  display:flex; justify-content:center; gap:14px;
-  opacity:.12; flex-wrap:wrap; margin-top:36px;
-}
-
-/* about collage */
-.collage { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
-.collage-tile {
-  background:rgba(22,12,2,.75);
-  border:1px solid rgba(201,149,42,.18);
-  padding:18px 20px;
-  position:relative;
-}
-.collage-tile.tilt-l { transform:rotate(-1.3deg); }
-.collage-tile.tilt-r { transform:rotate(.9deg); }
-.tile-label { font-family:'Permanent Marker',cursive; font-size:11px; color:var(--terracotta); margin-bottom:5px; }
-.tile-val { font-family:'Rye',serif; font-size:20px; color:var(--gold); }
-.tile-sub { font-size:11.5px; color:var(--sage); font-family:'Space Mono',monospace; margin-top:5px; }
-
-/* skill bars */
-.bar-row { display:flex; align-items:center; gap:12px; margin-bottom:13px; }
-.bar-label { font-family:'Space Mono',monospace; font-size:10px; color:var(--sand); width:155px; flex-shrink:0; letter-spacing:.05em; }
-.bar-track { flex:1; height:8px; background:rgba(255,255,255,.05); overflow:hidden; position:relative; }
-.bar-fill {
-  position:absolute; top:0; left:0; height:100%;
-  background:repeating-linear-gradient(
-    90deg,
-    var(--rust) 0,var(--rust) 5px,
-    transparent 5px,transparent 9px,
-    var(--gold) 9px,var(--gold) 14px,
-    transparent 14px,transparent 18px
-  );
-  animation:barGrow 1.3s ease forwards;
-}
-@keyframes barGrow { from{clip-path:inset(0 100% 0 0)} to{clip-path:inset(0 0 0 0)} }
-.bar-pct { font-family:'Space Mono',monospace; font-size:9px; color:var(--terracotta); width:28px; text-align:right; }
-
-/* scrollbar */
-::-webkit-scrollbar { width:5px; }
-::-webkit-scrollbar-track { background:var(--deep); }
-::-webkit-scrollbar-thumb { background:var(--rust); border-radius:3px; }
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--deep);}
+::-webkit-scrollbar-thumb{background:var(--rust);border-radius:3px;}
 
 @media(max-width:580px){
   .collage{grid-template-columns:1fr;}
@@ -464,387 +266,183 @@ body {
 </head>
 <body>
 
-<div class="starfield"></div>
-<canvas id="orbitCanvas"></canvas>
+<!-- ═══════════════════════════════
+     LANDING SCREEN
+═══════════════════════════════ -->
+<div id="landing">
+  <canvas id="landingCanvas"></canvas>
+  <canvas id="symbolCanvas"></canvas>
 
-<div class="container">
-
-  <!-- HEADER -->
-  <header class="header">
-    <!-- Animated sun SVG -->
-    <svg class="header-sun" width="70" height="70" viewBox="0 0 70 70" fill="none">
-      <circle cx="35" cy="35" r="14" stroke="#C9952A" stroke-width="2.5" fill="rgba(201,149,42,.1)"/>
-      <circle cx="35" cy="35" r="9" stroke="#C4622D" stroke-width="1" fill="rgba(196,98,45,.12)"/>
-      <path d="M35 8 L37.2 16.5 L35 20 L32.8 16.5Z" fill="#C9952A"/>
-      <path d="M35 50 L37.2 58.5 L35 62 L32.8 58.5Z" fill="#C9952A"/>
-      <path d="M8 35 L16.5 32.8 L20 35 L16.5 37.2Z" fill="#C9952A"/>
-      <path d="M50 35 L58.5 32.8 L62 35 L58.5 37.2Z" fill="#C9952A"/>
-      <path d="M16 16 L22 22.5 L21 25 L18.5 22Z" fill="#C9952A"/>
-      <path d="M49 45 L54 50.5 L53 53 L50.5 50Z" fill="#C9952A"/>
-      <path d="M54 16 L49 22.5 L46.5 22 L50 18.5Z" fill="#C9952A"/>
-      <path d="M21 45 L16 50 L15.5 53 L18.5 50Z" fill="#C9952A"/>
+  <!-- Tiny person SVG — click to reveal resume -->
+  <div id="person" onclick="revealResume()" title="Click me">
+    <svg width="18" height="40" viewBox="0 0 18 40" fill="none">
+      <!-- head -->
+      <circle cx="9" cy="5" r="4" fill="#1a0800"/>
+      <!-- body -->
+      <line x1="9" y1="9" x2="9" y2="26" stroke="#1a0800" stroke-width="2.2"/>
+      <!-- arms -->
+      <line x1="9" y1="14" x2="2" y2="21" stroke="#1a0800" stroke-width="1.8"/>
+      <line x1="9" y1="14" x2="16" y2="21" stroke="#1a0800" stroke-width="1.8"/>
+      <!-- legs -->
+      <line x1="9" y1="26" x2="4" y2="38" stroke="#1a0800" stroke-width="2"/>
+      <line x1="9" y1="26" x2="14" y2="38" stroke="#1a0800" stroke-width="2"/>
     </svg>
+  </div>
+</div>
 
-    <h1 class="name">Minjun Lee</h1>
-    <p class="name-sub">Software Engineer · Builder · CS Graduate</p>
+<!-- ═══════════════════════════════
+     RESUME
+═══════════════════════════════ -->
+<div id="resume">
+  <div class="starfield"></div>
+  <canvas id="resumeOrbitCanvas"></canvas>
 
-    <div class="divider-row">
-      <div class="divider-line"></div>
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <circle cx="16" cy="16" r="6" stroke="#C9952A" stroke-width="1.5"/>
-        <line x1="16" y1="2" x2="16" y2="7" stroke="#C9952A" stroke-width="1.5"/>
-        <line x1="16" y1="25" x2="16" y2="30" stroke="#C9952A" stroke-width="1.5"/>
-        <line x1="2" y1="16" x2="7" y2="16" stroke="#C9952A" stroke-width="1.5"/>
-        <line x1="25" y1="16" x2="30" y2="16" stroke="#C9952A" stroke-width="1.5"/>
-        <line x1="5.5" y1="5.5" x2="9.5" y2="9.5" stroke="#C9952A" stroke-width="1.5"/>
-        <line x1="22.5" y1="22.5" x2="26.5" y2="26.5" stroke="#C9952A" stroke-width="1.5"/>
-        <line x1="26.5" y1="5.5" x2="22.5" y2="9.5" stroke="#C9952A" stroke-width="1.5"/>
-        <line x1="5.5" y1="26.5" x2="9.5" y2="22.5" stroke="#C9952A" stroke-width="1.5"/>
+  <div class="container">
+    <header class="header">
+      <svg class="header-sun" width="70" height="70" viewBox="0 0 70 70" fill="none">
+        <circle cx="35" cy="35" r="14" stroke="#C9952A" stroke-width="2.5" fill="rgba(201,149,42,.1)"/>
+        <circle cx="35" cy="35" r="9"  stroke="#C4622D" stroke-width="1"   fill="rgba(196,98,45,.12)"/>
+        <path d="M35 8 L37.2 16.5 L35 20 L32.8 16.5Z" fill="#C9952A"/>
+        <path d="M35 50 L37.2 58.5 L35 62 L32.8 58.5Z" fill="#C9952A"/>
+        <path d="M8 35 L16.5 32.8 L20 35 L16.5 37.2Z" fill="#C9952A"/>
+        <path d="M50 35 L58.5 32.8 L62 35 L58.5 37.2Z" fill="#C9952A"/>
+        <path d="M16 16 L22 22.5 L21 25 L18.5 22Z" fill="#C9952A"/>
+        <path d="M49 45 L54 50.5 L53 53 L50.5 50Z" fill="#C9952A"/>
+        <path d="M54 16 L49 22.5 L46.5 22 L50 18.5Z" fill="#C9952A"/>
+        <path d="M21 45 L16 50 L15.5 53 L18.5 50Z" fill="#C9952A"/>
       </svg>
-      <div class="divider-line"></div>
-    </div>
-
-    <div class="contact-row">
-      <span>📍 Holland, MI</span>
-      <a href="tel:9206669262">920-666-9262</a>
-      <a href="mailto:lmjg0407@gmail.com">lmjg0407@gmail.com</a>
-      <a href="https://github.com/M1nJun" target="_blank">github.com/M1nJun</a>
-      <a href="https://linkedin.com/in/minjunleesd" target="_blank">linkedin.com/in/minjunleesd</a>
-    </div>
-  </header>
-
-  <!-- NAV -->
-  <nav class="nav-strip">
-    <button class="nav-btn active" onclick="show('about',this)">About</button>
-    <button class="nav-btn" onclick="show('skills',this)">Skills</button>
-    <button class="nav-btn" onclick="show('projects',this)">Projects</button>
-    <button class="nav-btn" onclick="show('experience',this)">Experience</button>
-    <button class="nav-btn" onclick="show('education',this)">Education</button>
-  </nav>
-
-  <!-- ══ ABOUT ══ -->
-  <section id="about" class="section active">
-    <div class="sec-header">
-      <span style="font-size:20px;opacity:.7">🌞</span>
-      <h2 class="sec-header-title">About Me</h2>
-      <div class="sec-header-line"></div>
-    </div>
-
-    <div class="card" style="margin-bottom:28px;">
-      <div class="tape tape-l"></div>
-      <div class="tape tape-r"></div>
-      <p class="card-body" style="font-size:14.5px;line-height:1.95;">
-        Software engineer based in Holland, MI. I build things that move — 
-        mobile apps used by real people on real campuses, computer vision systems 
-        on factory floors, machine learning pipelines, and low-level C programs 
-        that talk directly to memory. Graduated from Lawrence University with a 
-        CS major and a 3.8 GPA. Korean-American, native in both. Currently 
-        building inspection systems for EV battery manufacturing at LG Energy 
-        Solution. I find the overlap between rigorous engineering and 
-        creative problem-solving to be the most interesting place to work.
-      </p>
-    </div>
-
-    <div class="collage">
-      <div class="collage-tile tilt-l">
-        <div class="tape tape-l" style="width:46px;height:17px;top:-8px;left:14px;"></div>
-        <div class="tile-label">Current Role</div>
-        <div class="tile-val" style="font-size:16px;">Software Engineer</div>
-        <div class="tile-sub">LG Energy Solution · Holland, MI</div>
+      <h1 class="name">Minjun Lee</h1>
+      <p class="name-sub">Software Engineer · Builder · CS Graduate</p>
+      <div class="divider-row">
+        <div class="divider-line"></div>
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="6" stroke="#C9952A" stroke-width="1.5"/>
+          <line x1="16" y1="2"  x2="16" y2="7"  stroke="#C9952A" stroke-width="1.5"/>
+          <line x1="16" y1="25" x2="16" y2="30" stroke="#C9952A" stroke-width="1.5"/>
+          <line x1="2"  y1="16" x2="7"  y2="16" stroke="#C9952A" stroke-width="1.5"/>
+          <line x1="25" y1="16" x2="30" y2="16" stroke="#C9952A" stroke-width="1.5"/>
+          <line x1="5.5" y1="5.5"   x2="9.5"  y2="9.5"  stroke="#C9952A" stroke-width="1.5"/>
+          <line x1="22.5" y1="22.5" x2="26.5" y2="26.5" stroke="#C9952A" stroke-width="1.5"/>
+          <line x1="26.5" y1="5.5"  x2="22.5" y2="9.5"  stroke="#C9952A" stroke-width="1.5"/>
+          <line x1="5.5" y1="26.5"  x2="9.5"  y2="22.5" stroke="#C9952A" stroke-width="1.5"/>
+        </svg>
+        <div class="divider-line"></div>
       </div>
-      <div class="collage-tile tilt-r">
-        <div class="tape tape-r" style="width:46px;height:17px;top:-8px;right:14px;"></div>
-        <div class="tile-label">Education</div>
-        <div class="tile-val" style="font-size:15px;">B.A. Computer Science</div>
-        <div class="tile-sub">Lawrence University · GPA 3.8</div>
+      <div class="contact-row">
+        <span>📍 Holland, MI</span>
+        <a href="tel:9206669262">920-666-9262</a>
+        <a href="mailto:lmjg0407@gmail.com">lmjg0407@gmail.com</a>
+        <a href="https://github.com/M1nJun" target="_blank">github.com/M1nJun</a>
+        <a href="https://linkedin.com/in/minjunleesd" target="_blank">linkedin.com/in/minjunleesd</a>
       </div>
-      <div class="collage-tile">
-        <div class="tape tape-l" style="width:46px;height:17px;top:-8px;left:14px;"></div>
-        <div class="tile-label">Languages (Human)</div>
-        <div class="tile-sub" style="line-height:1.7;">
-          English (Native) · Korean (Native)<br>Japanese (Proficient) · Spanish (Elementary)
+    </header>
+
+    <nav class="nav-strip">
+      <button class="nav-btn active" onclick="show('about',this)">About</button>
+      <button class="nav-btn" onclick="show('skills',this)">Skills</button>
+      <button class="nav-btn" onclick="show('projects',this)">Projects</button>
+      <button class="nav-btn" onclick="show('experience',this)">Experience</button>
+      <button class="nav-btn" onclick="show('education',this)">Education</button>
+    </nav>
+
+    <!-- ABOUT -->
+    <section id="about" class="section active">
+      <div class="sec-header"><span style="font-size:20px;opacity:.7">🌞</span><h2 class="sec-header-title">About Me</h2><div class="sec-header-line"></div></div>
+      <div class="card" style="margin-bottom:28px;">
+        <div class="tape tape-l"></div><div class="tape tape-r"></div>
+        <p class="card-body" style="font-size:14.5px;line-height:1.95;">
+          Software engineer based in Holland, MI. I build things that move —
+          mobile apps used by real people on real campuses, computer vision systems
+          on factory floors, machine learning pipelines, and low-level C programs
+          that talk directly to memory. Graduated from Lawrence University with a
+          CS major and a 3.8 GPA. Korean-American, native in both. Currently
+          building inspection systems for EV battery manufacturing at LG Energy
+          Solution. I find the overlap between rigorous engineering and
+          creative problem-solving to be the most interesting place to work.
+        </p>
+      </div>
+      <div class="collage">
+        <div class="collage-tile tilt-l"><div class="tape tape-l" style="width:46px;height:17px;top:-8px;left:14px;"></div><div class="tile-label">Current Role</div><div class="tile-val" style="font-size:16px;">Software Engineer</div><div class="tile-sub">LG Energy Solution · Holland, MI</div></div>
+        <div class="collage-tile tilt-r"><div class="tape tape-r" style="width:46px;height:17px;top:-8px;right:14px;"></div><div class="tile-label">Education</div><div class="tile-val" style="font-size:15px;">B.A. Computer Science</div><div class="tile-sub">Lawrence University · GPA 3.8</div></div>
+        <div class="collage-tile"><div class="tape tape-l" style="width:46px;height:17px;top:-8px;left:14px;"></div><div class="tile-label">Languages (Human)</div><div class="tile-sub" style="line-height:1.7;">English (Native) · Korean (Native)<br>Japanese (Proficient) · Spanish (Elementary)</div></div>
+        <div class="collage-tile tilt-l"><div class="tape tape-r" style="width:46px;height:17px;top:-8px;right:14px;"></div><div class="tile-label">Military Service</div><div class="tile-val" style="font-size:14px;">Squad Leader</div><div class="tile-sub">3rd Armored Brigade · ROK Army<br>Jun 2021 – Dec 2022</div></div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section">
+      <div class="sec-header"><span style="font-size:20px;opacity:.7">🐍</span><h2 class="sec-header-title">Skills</h2><div class="sec-header-line"></div></div>
+      <div class="card"><div class="tape tape-l"></div><p class="card-label">Programming Languages</p>
+        <div class="tag-grid"><span class="tag lang">Java</span><span class="tag lang">Python</span><span class="tag lang">C / C++</span><span class="tag lang">JavaScript</span><span class="tag lang">React / React Native</span><span class="tag lang">Swift</span><span class="tag lang">HTML / CSS</span><span class="tag lang">TensorFlow</span></div>
+      </div>
+      <div class="card"><div class="tape tape-r"></div><p class="card-label">Dev Environment & Platforms</p>
+        <div class="tag-grid"><span class="tag tool">AWS</span><span class="tag tool">Docker</span><span class="tag tool">GitHub Actions CI/CD</span><span class="tag tool">Linux</span><span class="tag tool">Android Studio</span><span class="tag tool">Xcode</span><span class="tag tool">SQL / MySQL</span><span class="tag tool">Spring Boot</span><span class="tag tool">Flask</span></div>
+      </div>
+      <div class="card"><div class="tape tape-l"></div><p class="card-label">Proficiency</p>
+        <div style="margin-top:10px;">
+          <div class="bar-row"><span class="bar-label">Java / Spring Boot</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span class="bar-pct">88%</span></div>
+          <div class="bar-row"><span class="bar-label">Python</span><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div><span class="bar-pct">85%</span></div>
+          <div class="bar-row"><span class="bar-label">React / React Native</span><div class="bar-track"><div class="bar-fill" style="width:83%"></div></div><span class="bar-pct">83%</span></div>
+          <div class="bar-row"><span class="bar-label">AWS Cloud</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><span class="bar-pct">80%</span></div>
+          <div class="bar-row"><span class="bar-label">Computer Vision / ML</span><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div><span class="bar-pct">75%</span></div>
+          <div class="bar-row"><span class="bar-label">C / C++ / Systems</span><div class="bar-track"><div class="bar-fill" style="width:72%"></div></div><span class="bar-pct">72%</span></div>
         </div>
       </div>
-      <div class="collage-tile tilt-l">
-        <div class="tape tape-r" style="width:46px;height:17px;top:-8px;right:14px;"></div>
-        <div class="tile-label">Military Service</div>
-        <div class="tile-val" style="font-size:14px;">Squad Leader</div>
-        <div class="tile-sub">3rd Armored Brigade · ROK Army<br>Jun 2021 – Dec 2022</div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <div class="sec-header"><span style="font-size:20px;opacity:.7">🐢</span><h2 class="sec-header-title">Projects</h2><div class="sec-header-line"></div></div>
+      <p class="click-hint">↓ CLICK A CARD TO OPEN SCRAPBOOK ↓</p>
+      <div class="proj-grid">
+        <div class="proj-card" onclick="openProject('lu')"><span class="proj-animal">🦅</span><p class="proj-name">LU Campus Safety App</p><p class="proj-short">Production mobile app on App Store & Google Play — adopted by Lawrence University for facility access, rides & safety.</p><div class="proj-tags"><span class="proj-tag">React Native</span><span class="proj-tag">Spring Boot</span><span class="proj-tag">AWS</span><span class="proj-tag">MySQL</span><span class="proj-tag">Docker</span></div></div>
+        <div class="proj-card" onclick="openProject('cv')"><span class="proj-animal">🔬</span><p class="proj-name">EV Battery Vision System</p><p class="proj-short">Computer vision inspection for EV & ESS battery manufacturing — deep learning + rule-based defect detection at LG.</p><div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Deep Learning</span><span class="proj-tag">Computer Vision</span></div></div>
+        <div class="proj-card" onclick="openProject('fitness')"><span class="proj-animal">🐆</span><p class="proj-name">AI Fitness Coach</p><p class="proj-short">HackHarvard 2023 — personalized AI workout coach with wearable data, GPT-4 via LangChain, Ionic React frontend.</p><div class="proj-tags"><span class="proj-tag">Ionic React</span><span class="proj-tag">LangChain</span><span class="proj-tag">Flask</span><span class="proj-tag">Terra API</span></div></div>
+        <div class="proj-card" onclick="openProject('surfaces')"><span class="proj-animal">🦬</span><p class="proj-name">Stable Surfaces Research</p><p class="proj-short">CS/Math research at Lawrence — built a program producing new examples of stable surfaces using graph theory.</p><div class="proj-tags"><span class="proj-tag">C++</span><span class="proj-tag">Python</span><span class="proj-tag">Graph Theory</span></div></div>
+        <div class="proj-card" onclick="openProject('malloc')"><span class="proj-animal">🐘</span><p class="proj-name">Mock Malloc</p><p class="proj-short">Custom malloc() implementation in C — dynamic heap memory allocation from scratch, no standard library.</p><div class="proj-tags"><span class="proj-tag">C</span><span class="proj-tag">Systems</span><span class="proj-tag">Memory Management</span></div></div>
+        <div class="proj-card" onclick="openProject('autocomplete')"><span class="proj-animal">🐬</span><p class="proj-name">Word AutoComplete</p><p class="proj-short">LSTM text prediction pipeline trained on large corpus — custom preprocessing, TensorFlow/Keras, NumPy.</p><div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">TensorFlow</span><span class="proj-tag">LSTM</span><span class="proj-tag">NumPy</span></div></div>
       </div>
-    </div>
+    </section>
 
-    <div class="glyph-strip">
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="4" y="4" width="28" height="28" stroke="#C9952A" stroke-width="1.5"/><circle cx="18" cy="18" r="7" stroke="#C9952A" stroke-width="1"/><line x1="11" y1="11" x2="25" y2="25" stroke="#C9952A" stroke-width=".8"/><line x1="25" y1="11" x2="11" y2="25" stroke="#C9952A" stroke-width=".8"/></svg>
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><polygon points="18,3 33,33 3,33" stroke="#C9952A" stroke-width="1.5" fill="none"/><circle cx="18" cy="21" r="5" stroke="#C9952A" stroke-width="1"/></svg>
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="4" y="4" width="28" height="28" stroke="#C9952A" stroke-width="1.5" transform="rotate(45 18 18)"/><circle cx="18" cy="18" r="4" fill="#C9952A" opacity=".4"/></svg>
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="13" stroke="#C9952A" stroke-width="1.5"/><circle cx="18" cy="18" r="7" stroke="#C9952A" stroke-width="1"/><circle cx="18" cy="18" r="2" fill="#C9952A"/><line x1="5" y1="18" x2="31" y2="18" stroke="#C9952A" stroke-width=".7"/><line x1="18" y1="5" x2="18" y2="31" stroke="#C9952A" stroke-width=".7"/></svg>
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 4L32 32H4Z" stroke="#C9952A" stroke-width="1.2" fill="none"/><line x1="18" y1="4" x2="18" y2="32" stroke="#C9952A" stroke-width=".7" stroke-dasharray="3 2"/></svg>
-    </div>
-  </section>
-
-  <!-- ══ SKILLS ══ -->
-  <section id="skills" class="section">
-    <div class="sec-header">
-      <span style="font-size:20px;opacity:.7">🐍</span>
-      <h2 class="sec-header-title">Skills</h2>
-      <div class="sec-header-line"></div>
-    </div>
-
-    <div class="card">
-      <div class="tape tape-l"></div>
-      <p class="card-label">Programming Languages</p>
-      <div class="tag-grid">
-        <span class="tag lang">Java</span>
-        <span class="tag lang">Python</span>
-        <span class="tag lang">C / C++</span>
-        <span class="tag lang">JavaScript</span>
-        <span class="tag lang">React / React Native</span>
-        <span class="tag lang">Swift</span>
-        <span class="tag lang">HTML / CSS</span>
-        <span class="tag lang">TensorFlow</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="tape tape-r"></div>
-      <p class="card-label">Dev Environment & Platforms</p>
-      <div class="tag-grid">
-        <span class="tag tool">AWS (EC2, RDS, ALB, ASG, Lambda, S3, CloudFront, EventBridge)</span>
-        <span class="tag tool">Docker</span>
-        <span class="tag tool">GitHub Actions CI/CD</span>
-        <span class="tag tool">Linux</span>
-        <span class="tag tool">Android Studio</span>
-        <span class="tag tool">Xcode</span>
-        <span class="tag tool">SQL / MySQL</span>
-        <span class="tag tool">Spring Boot</span>
-        <span class="tag tool">Flask</span>
-        <span class="tag tool">Excel / R</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="tape tape-l"></div>
-      <p class="card-label">Proficiency</p>
-      <div style="margin-top:10px;">
-        <div class="bar-row"><span class="bar-label">Java / Spring Boot</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span class="bar-pct">88%</span></div>
-        <div class="bar-row"><span class="bar-label">Python</span><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div><span class="bar-pct">85%</span></div>
-        <div class="bar-row"><span class="bar-label">React / React Native</span><div class="bar-track"><div class="bar-fill" style="width:83%"></div></div><span class="bar-pct">83%</span></div>
-        <div class="bar-row"><span class="bar-label">AWS Cloud</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><span class="bar-pct">80%</span></div>
-        <div class="bar-row"><span class="bar-label">Computer Vision / ML</span><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div><span class="bar-pct">75%</span></div>
-        <div class="bar-row"><span class="bar-label">C / C++ / Systems</span><div class="bar-track"><div class="bar-fill" style="width:72%"></div></div><span class="bar-pct">72%</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ PROJECTS ══ -->
-  <section id="projects" class="section">
-    <div class="sec-header">
-      <span style="font-size:20px;opacity:.7">🐢</span>
-      <h2 class="sec-header-title">Projects</h2>
-      <div class="sec-header-line"></div>
-    </div>
-    <p class="click-hint">↓ CLICK A CARD TO OPEN SCRAPBOOK ↓</p>
-
-    <div class="proj-grid">
-
-      <div class="proj-card" onclick="openProject('lu')">
-        <span class="proj-animal">🦅</span>
-        <p class="proj-name">LU Campus Safety App</p>
-        <p class="proj-short">Production mobile app on the App Store & Google Play — adopted by Lawrence University for facility access, rides & safety.</p>
-        <div class="proj-tags">
-          <span class="proj-tag">React Native</span>
-          <span class="proj-tag">Spring Boot</span>
-          <span class="proj-tag">AWS</span>
-          <span class="proj-tag">MySQL</span>
-          <span class="proj-tag">Docker</span>
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section">
+      <div class="sec-header"><span style="font-size:20px;opacity:.7">🌵</span><h2 class="sec-header-title">Experience</h2><div class="sec-header-line"></div></div>
+      <div class="card"><div class="tape tape-l"></div>
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-diamond"></div><p class="tl-role">Software Engineer</p><p class="tl-where">LG Energy Solution · Holland, MI<span>Aug 2025 – Present</span></p><ul class="tl-bullets"><li>Develop and maintain computer vision inspection systems for EV and ESS battery manufacturing</li><li>Combines deep learning models with rule-based algorithms for precision defect detection</li></ul></div>
+          <div class="tl-item"><div class="tl-diamond"></div><p class="tl-role">Full-Stack Engineer (Independent)</p><p class="tl-where">LU Campus Safety App<span>Jun 2024 – Present</span></p><ul class="tl-bullets"><li>Developed and deployed a production ride-catching platform adopted by Lawrence University</li><li>Live on Apple App Store and Google Play as "LU Campus Safety"</li></ul></div>
+          <div class="tl-item"><div class="tl-diamond"></div><p class="tl-role">CS / Math Research</p><p class="tl-where">Lawrence University · Appleton, WI<span>Jun – Sep 2023</span></p><ul class="tl-bullets"><li>Led research producing new examples of stable surfaces via graph theory and combinatorics in C++ and Python</li></ul></div>
+          <div class="tl-item"><div class="tl-diamond"></div><p class="tl-role">HackHarvard 2023</p><p class="tl-where">Harvard University · Boston, MA<span>October 2023</span></p><ul class="tl-bullets"><li>Team of four built an AI fitness coach with wearable device integration and LangChain/Flask backend</li></ul></div>
+          <div class="tl-item"><div class="tl-diamond"></div><p class="tl-role">President, Korean Culture Club</p><p class="tl-where">Lawrence University<span>Apr 2023 – Jun 2024</span></p><ul class="tl-bullets"><li>Organized campus events — dance, food, games, language classes</li></ul></div>
+          <div class="tl-item"><div class="tl-diamond"></div><p class="tl-role">Squad Leader</p><p class="tl-where">3rd Armored Brigade · Ministry of National Defense, ROK<span>Jun 2021 – Dec 2022</span></p><ul class="tl-bullets"><li>Led a squad through 1.5 years of mandatory military service; honorably discharged</li></ul></div>
         </div>
       </div>
+    </section>
 
-      <div class="proj-card" onclick="openProject('cv')">
-        <span class="proj-animal">🔬</span>
-        <p class="proj-name">EV Battery Vision System</p>
-        <p class="proj-short">Computer vision inspection for EV & ESS battery manufacturing — deep learning + rule-based defect detection at LG Energy Solution.</p>
-        <div class="proj-tags">
-          <span class="proj-tag">Python</span>
-          <span class="proj-tag">Deep Learning</span>
-          <span class="proj-tag">Computer Vision</span>
-          <span class="proj-tag">CV</span>
-        </div>
-      </div>
-
-      <div class="proj-card" onclick="openProject('fitness')">
-        <span class="proj-animal">🐆</span>
-        <p class="proj-name">AI Fitness Coach</p>
-        <p class="proj-short">HackHarvard 2023 — personalized AI workout coach with wearable data integration, GPT-4 via LangChain, Ionic React frontend.</p>
-        <div class="proj-tags">
-          <span class="proj-tag">Ionic React</span>
-          <span class="proj-tag">LangChain</span>
-          <span class="proj-tag">Flask</span>
-          <span class="proj-tag">Terra API</span>
-        </div>
-      </div>
-
-      <div class="proj-card" onclick="openProject('surfaces')">
-        <span class="proj-animal">🦬</span>
-        <p class="proj-name">Stable Surfaces Research</p>
-        <p class="proj-short">CS/Math research at Lawrence — built a program that produces new examples of stable surfaces using graph theory & combinatorics.</p>
-        <div class="proj-tags">
-          <span class="proj-tag">C++</span>
-          <span class="proj-tag">Python</span>
-          <span class="proj-tag">Graph Theory</span>
-          <span class="proj-tag">Combinatorics</span>
-        </div>
-      </div>
-
-      <div class="proj-card" onclick="openProject('malloc')">
-        <span class="proj-animal">🐘</span>
-        <p class="proj-name">Mock Malloc</p>
-        <p class="proj-short">Custom implementation of malloc() in C — dynamic heap memory allocation from scratch, no standard library.</p>
-        <div class="proj-tags">
-          <span class="proj-tag">C</span>
-          <span class="proj-tag">Systems</span>
-          <span class="proj-tag">Memory Management</span>
-        </div>
-      </div>
-
-      <div class="proj-card" onclick="openProject('autocomplete')">
-        <span class="proj-animal">🐬</span>
-        <p class="proj-name">Word AutoComplete</p>
-        <p class="proj-short">Text prediction pipeline with LSTM model trained on large corpus — custom preprocessing, numerical encoding, TensorFlow/Keras.</p>
-        <div class="proj-tags">
-          <span class="proj-tag">Python</span>
-          <span class="proj-tag">TensorFlow</span>
-          <span class="proj-tag">Keras</span>
-          <span class="proj-tag">NumPy</span>
-          <span class="proj-tag">LSTM</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ══ EXPERIENCE ══ -->
-  <section id="experience" class="section">
-    <div class="sec-header">
-      <span style="font-size:20px;opacity:.7">🌵</span>
-      <h2 class="sec-header-title">Experience</h2>
-      <div class="sec-header-line"></div>
-    </div>
-
-    <div class="card">
-      <div class="tape tape-l"></div>
-      <div class="timeline">
-
-        <div class="tl-item">
-          <div class="tl-diamond"></div>
-          <p class="tl-role">Software Engineer</p>
-          <p class="tl-where">LG Energy Solution · Holland, MI (On-site)<span>Aug 2025 – Present</span></p>
-          <ul class="tl-bullets">
-            <li>Develop and maintain computer vision inspection systems for EV and ESS battery manufacturing</li>
-            <li>Combines deep learning models with rule-based algorithms for precision defect detection on the factory floor</li>
-          </ul>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-diamond"></div>
-          <p class="tl-role">Full-Stack Engineer (Independent)</p>
-          <p class="tl-where">LU Campus Safety App<span>Jun 2024 – Present</span></p>
-          <ul class="tl-bullets">
-            <li>Developed and deployed a production-grade ride-catching platform adopted by Lawrence University</li>
-            <li>Live on Apple App Store and Google Play as "LU Campus Safety" — used by students, faculty, and officers</li>
-          </ul>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-diamond"></div>
-          <p class="tl-role">CS / Math Research</p>
-          <p class="tl-where">Lawrence University · Appleton, WI<span>Jun 2023 – Sep 2023</span></p>
-          <ul class="tl-bullets">
-            <li>Led research producing new examples of mathematical objects known as stable surfaces</li>
-            <li>Applied graph theory and combinatorics through C++ and Python</li>
-          </ul>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-diamond"></div>
-          <p class="tl-role">HackHarvard 2023</p>
-          <p class="tl-where">Harvard University · Boston, MA<span>October 2023</span></p>
-          <ul class="tl-bullets">
-            <li>Team of four built a personalized AI fitness coach with customized workout plans</li>
-            <li>Ionic React frontend, LangChain + GPT over Flask backend, Terra API for wearable device data</li>
-          </ul>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-diamond"></div>
-          <p class="tl-role">President, Korean Culture Club</p>
-          <p class="tl-where">Lawrence University<span>Apr 2023 – Jun 2024</span></p>
-          <ul class="tl-bullets">
-            <li>Organized events — dance, food, games, language classes — to share Korean culture on campus</li>
-          </ul>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-diamond"></div>
-          <p class="tl-role">Squad Leader</p>
-          <p class="tl-where">3rd Armored Brigade · Ministry of National Defense, ROK<span>Jun 2021 – Dec 2022</span></p>
-          <ul class="tl-bullets">
-            <li>Led a squad during 1.5 years of mandatory military service; honorably discharged</li>
-            <li>Developed strong communication and team leadership under pressure</li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ EDUCATION ══ -->
-  <section id="education" class="section">
-    <div class="sec-header">
-      <span style="font-size:20px;opacity:.7">📜</span>
-      <h2 class="sec-header-title">Education</h2>
-      <div class="sec-header-line"></div>
-    </div>
-
-    <div class="card">
-      <div class="tape tape-l"></div>
-      <div class="tape tape-r"></div>
-      <div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;">
-        <div style="width:56px;height:56px;flex-shrink:0;border:1px solid rgba(201,149,42,.4);display:flex;align-items:center;justify-content:center;">
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
-            <polygon points="17,3 31,11 31,23 17,31 3,23 3,11" stroke="#C9952A" stroke-width="1.8" fill="none"/>
-            <circle cx="17" cy="17" r="6" stroke="#C9952A" stroke-width="1.2" fill="rgba(201,149,42,.1)"/>
-          </svg>
-        </div>
-        <div style="flex:1;">
-          <p class="card-title">Bachelor of Arts — Computer Science</p>
-          <p class="card-label" style="margin-bottom:10px;">Lawrence University · Appleton, WI · June 2025</p>
-          <p class="card-body" style="margin-bottom:14px;">
-            <strong style="color:var(--gold);font-weight:400;">Major GPA: 3.8 / 4.0</strong>
-          </p>
-          <p class="card-label">Relevant Coursework</p>
-          <div class="tag-grid">
-            <span class="tag">Algorithms</span>
-            <span class="tag">Operating Systems</span>
-            <span class="tag">Machine Learning</span>
-            <span class="tag">Data Structures</span>
-            <span class="tag">Computer Vision</span>
-            <span class="tag">Graph Theory</span>
-            <span class="tag">Combinatorics</span>
-            <span class="tag">Databases</span>
-            <span class="tag">Computer Networks</span>
-            <span class="tag">Software Engineering</span>
+    <!-- EDUCATION -->
+    <section id="education" class="section">
+      <div class="sec-header"><span style="font-size:20px;opacity:.7">📜</span><h2 class="sec-header-title">Education</h2><div class="sec-header-line"></div></div>
+      <div class="card"><div class="tape tape-l"></div><div class="tape tape-r"></div>
+        <div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;">
+          <div style="width:56px;height:56px;flex-shrink:0;border:1px solid rgba(201,149,42,.4);display:flex;align-items:center;justify-content:center;">
+            <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><polygon points="17,3 31,11 31,23 17,31 3,23 3,11" stroke="#C9952A" stroke-width="1.8" fill="none"/><circle cx="17" cy="17" r="6" stroke="#C9952A" stroke-width="1.2" fill="rgba(201,149,42,.1)"/></svg>
+          </div>
+          <div style="flex:1;">
+            <p class="card-title">Bachelor of Arts — Computer Science</p>
+            <p class="card-label" style="margin-bottom:10px;">Lawrence University · Appleton, WI · June 2025</p>
+            <p class="card-body" style="margin-bottom:14px;"><strong style="color:var(--gold);font-weight:400;">Major GPA: 3.8 / 4.0</strong></p>
+            <p class="card-label">Relevant Coursework</p>
+            <div class="tag-grid"><span class="tag">Algorithms</span><span class="tag">Operating Systems</span><span class="tag">Machine Learning</span><span class="tag">Data Structures</span><span class="tag">Computer Vision</span><span class="tag">Graph Theory</span><span class="tag">Combinatorics</span><span class="tag">Databases</span><span class="tag">Computer Networks</span><span class="tag">Software Engineering</span></div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div><!-- /container -->
+</div><!-- /resume -->
 
-</div>
-
-<!-- ══ PROJECT MODAL ══ -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modal" onclick="maybeClose(event)">
-  <div class="modal-box" id="modal-box">
+  <div class="modal-box">
     <div class="modal-header">
       <div class="modal-tape"></div>
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -853,10 +451,10 @@ body {
       <p class="modal-sub" id="m-sub"></p>
     </div>
     <div class="modal-content">
-      <div class="scrapbook-media" id="m-media"></div>
+      <div id="m-media"></div>
       <p class="modal-desc-title">Overview</p>
       <p class="modal-desc" id="m-desc"></p>
-      <p class="modal-desc-title" style="margin-top:4px;">What I Built</p>
+      <p class="modal-desc-title">What I Built</p>
       <ul class="modal-bullets" id="m-bullets"></ul>
       <div class="modal-links" id="m-links"></div>
     </div>
@@ -864,325 +462,520 @@ body {
 </div>
 
 <script>
-/* ══════════════════════════════════════
-   ORBITING ELEMENTS — CANVAS
-══════════════════════════════════════ */
-const canvas = document.getElementById('orbitCanvas');
-const ctx = canvas.getContext('2d');
+/* ═══════════════════════════════════════════════
+   LANDING CANVAS — pyramid desert scene
+   Replicates the warm amber/orange/red palette
+═══════════════════════════════════════════════ */
+const lc  = document.getElementById('landingCanvas');
+const lctx = lc.getContext('2d');
 
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = document.body.scrollHeight;
+function resizeLanding() {
+  lc.width  = window.innerWidth;
+  lc.height = window.innerHeight;
 }
-resize();
-window.addEventListener('resize', resize);
-window.addEventListener('scroll', () => {
-  if (document.body.scrollHeight !== canvas.height) resize();
-});
+resizeLanding();
+window.addEventListener('resize', resizeLanding);
 
-// Each object: center, radius, speed, angle, drawFn, size, opacity
-const orbiters = [];
+function drawLanding() {
+  const W = lc.width, H = lc.height;
 
-function makePlanet(cx, cy, r, speed, color, ringColor, size, phase) {
-  return { cx, cy, r, speed, phase: phase||0,
-    draw(x, y, t) {
-      ctx.save();
-      ctx.globalAlpha = 0.12;
-      ctx.strokeStyle = color;
-      ctx.lineWidth = size * 0.06;
-      ctx.beginPath();
-      ctx.arc(x, y, size, 0, Math.PI*2);
-      ctx.stroke();
-      // ring
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(0.4);
-      ctx.scale(1, 0.3);
-      ctx.beginPath();
-      ctx.arc(0, 0, size * 1.7, 0, Math.PI * 2);
-      ctx.strokeStyle = ringColor;
-      ctx.lineWidth = 1.2;
-      ctx.stroke();
-      ctx.restore();
-      ctx.restore();
+  // Sky — deep amber gradient like inspo image
+  const sky = lctx.createLinearGradient(0, 0, 0, H * 0.82);
+  sky.addColorStop(0,    '#e07000');  // deep amber top
+  sky.addColorStop(0.45, '#f08000');  // bright orange mid
+  sky.addColorStop(0.75, '#e86000');  // darker orange
+  sky.addColorStop(1,    '#c04000');  // burnt bottom
+  lctx.fillStyle = sky;
+  lctx.fillRect(0, 0, W, H);
+
+  // Ground strip — deep rust/red
+  const groundY = H * 0.82;
+  const ground = lctx.createLinearGradient(0, groundY, 0, H);
+  ground.addColorStop(0, '#9b1a00');
+  ground.addColorStop(1, '#6b0f00');
+  lctx.fillStyle = ground;
+  lctx.fillRect(0, groundY, W, H - groundY);
+
+  // Pyramid — large, centered, slightly darker than sky
+  const pw = Math.min(W * 0.7, 680);
+  const ph = Math.min(H * 0.62, 520);
+  const px = W / 2;
+  const py = groundY;
+
+  lctx.beginPath();
+  lctx.moveTo(px, py - ph);
+  lctx.lineTo(px + pw / 2, py);
+  lctx.lineTo(px - pw / 2, py);
+  lctx.closePath();
+
+  // Pyramid fill — slightly deeper amber/orange than sky
+  const pyrGrad = lctx.createLinearGradient(px - pw/2, py - ph, px + pw/2, py);
+  pyrGrad.addColorStop(0,   '#b85500');
+  pyrGrad.addColorStop(0.5, '#c96200');
+  pyrGrad.addColorStop(1,   '#a84800');
+  lctx.fillStyle = pyrGrad;
+  lctx.fill();
+
+  // Subtle noise/grain texture overlay (drawn as small semi-transparent dots)
+  lctx.save();
+  lctx.globalAlpha = 0.018;
+  for (let i = 0; i < 4000; i++) {
+    const gx = Math.random() * W;
+    const gy = Math.random() * H;
+    lctx.fillStyle = Math.random() > 0.5 ? '#fff' : '#000';
+    lctx.fillRect(gx, gy, 1, 1);
+  }
+  lctx.restore();
+}
+
+drawLanding();
+window.addEventListener('resize', drawLanding);
+
+/* Position the person on the ground line */
+function positionPerson() {
+  const H = window.innerHeight;
+  const person = document.getElementById('person');
+  // sits right on the ground line
+  person.style.bottom = (H * 0.18 - 2) + 'px';
+  person.style.bottom = '18%';
+}
+positionPerson();
+window.addEventListener('resize', positionPerson);
+
+/* ═══════════════════════════════════════════════
+   SYMBOL CANVAS — orbiting glyphs on landing
+   Based on the 7 uploaded inspo images:
+   1. Spiral sun (with wavy rays and dot circles)
+   2. Kokopelli (flute player)
+   3. Sun face
+   4. Tribal fish
+   5. Eye of Horus
+   6. Tribal manta ray
+   7. (pyramid — used as background)
+═══════════════════════════════════════════════ */
+const sc   = document.getElementById('symbolCanvas');
+const sctx = sc.getContext('2d');
+
+function resizeSym() {
+  sc.width  = window.innerWidth;
+  sc.height = window.innerHeight;
+}
+resizeSym();
+window.addEventListener('resize', resizeSym);
+
+/* ── Symbol draw functions ── */
+
+// 1. SPIRAL SUN — spiral center + wavy rays + dot-circle tips
+function drawSpiralSun(ctx, s, col) {
+  ctx.strokeStyle = col; ctx.fillStyle = col;
+  // outer dot-circle ornaments
+  const rays = 16;
+  for (let i = 0; i < rays; i++) {
+    const a = (i / rays) * Math.PI * 2;
+    const rx = Math.cos(a) * s * 1.0;
+    const ry = Math.sin(a) * s * 1.0;
+    // wavy ray line
+    ctx.lineWidth = Math.max(1, s * 0.04);
+    ctx.beginPath();
+    const steps = 6;
+    for (let j = 0; j <= steps; j++) {
+      const t = j / steps;
+      const wave = Math.sin(t * Math.PI * 3) * s * 0.06;
+      const nx = Math.cos(a) * (s * 0.38 + t * s * 0.5) - Math.sin(a) * wave;
+      const ny = Math.sin(a) * (s * 0.38 + t * s * 0.5) + Math.cos(a) * wave;
+      j === 0 ? ctx.moveTo(nx, ny) : ctx.lineTo(nx, ny);
     }
-  };
+    ctx.stroke();
+    // dot circle at tip
+    ctx.lineWidth = Math.max(1, s * 0.04);
+    ctx.beginPath(); ctx.arc(rx * 1.05, ry * 1.05, s * 0.1, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(rx * 1.05, ry * 1.05, s * 0.04, 0, Math.PI * 2); ctx.fill();
+  }
+  // center disk
+  ctx.lineWidth = Math.max(1.5, s * 0.06);
+  ctx.beginPath(); ctx.arc(0, 0, s * 0.36, 0, Math.PI * 2); ctx.stroke();
+  // spiral inside disk
+  ctx.lineWidth = Math.max(1.2, s * 0.05);
+  ctx.beginPath();
+  for (let a = 0; a < Math.PI * 4.5; a += 0.1) {
+    const r = (a / (Math.PI * 4.5)) * s * 0.32;
+    const x = Math.cos(a - Math.PI / 2) * r;
+    const y = Math.sin(a - Math.PI / 2) * r;
+    a < 0.1 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
 }
 
-function makeGlyph(cx, cy, r, speed, phase, type) {
-  return { cx, cy, r, speed, phase: phase||0,
-    draw(x, y, t) {
-      ctx.save();
-      ctx.globalAlpha = 0.09;
-      ctx.strokeStyle = '#C9952A';
-      ctx.lineWidth = 1;
-      ctx.translate(x, y);
-      ctx.rotate(t * 0.0004);
-      const s = 12;
-      if (type === 'ankh') {
-        ctx.beginPath(); ctx.arc(0, -s*0.7, s*0.5, 0, Math.PI*2); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(0, -s*0.2); ctx.lineTo(0, s*1.2); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(-s*0.7, s*0.35); ctx.lineTo(s*0.7, s*0.35); ctx.stroke();
-      } else if (type === 'pyramid') {
-        ctx.beginPath(); ctx.moveTo(0, -s); ctx.lineTo(s*0.9, s); ctx.lineTo(-s*0.9, s); ctx.closePath(); ctx.stroke();
-      } else if (type === 'shell') {
-        for (let i = 1; i <= 4; i++) {
-          ctx.beginPath();
-          ctx.arc(0, 0, s * i * 0.28, -Math.PI*0.2, Math.PI*1.5);
-          ctx.stroke();
-        }
-      } else if (type === 'star') {
-        for (let i = 0; i < 6; i++) {
-          const a = (i / 6) * Math.PI * 2;
-          ctx.beginPath(); ctx.moveTo(0,0);
-          ctx.lineTo(Math.cos(a)*s, Math.sin(a)*s);
-          ctx.stroke();
-        }
-        ctx.beginPath(); ctx.arc(0,0,s*0.35,0,Math.PI*2); ctx.stroke();
-      } else if (type === 'ufo') {
-        ctx.beginPath();
-        ctx.ellipse(0, 0, s, s*0.38, 0, 0, Math.PI*2); ctx.stroke();
-        ctx.beginPath(); ctx.arc(0, -s*0.28, s*0.42, Math.PI, 0); ctx.stroke();
-      } else if (type === 'turtle') {
-        ctx.beginPath(); ctx.ellipse(0,0,s*0.9,s*0.65,0,0,Math.PI*2); ctx.stroke();
-        ctx.beginPath(); ctx.arc(0,-s*0.82,s*0.28,0,Math.PI*2); ctx.stroke();
-        [[-.5,.7],[.5,.7],[-.8,.1],[.8,.1]].forEach(([lx,ly])=>{
-          ctx.beginPath(); ctx.arc(lx*s,ly*s,s*0.18,0,Math.PI*2); ctx.stroke();
-        });
-      } else if (type === 'ray') {
-        // manta ray silhouette
-        ctx.beginPath();
-        ctx.moveTo(0,-s*0.3);
-        ctx.bezierCurveTo(-s*1.6, -s*0.6, -s*1.6, s*0.5, 0, s*0.25);
-        ctx.bezierCurveTo(s*1.6, s*0.5, s*1.6, -s*0.6, 0, -s*0.3);
-        ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(0, s*0.25); ctx.lineTo(0, s*1.1); ctx.stroke();
-      }
-      ctx.restore();
+// 2. KOKOPELLI — hump-backed flute player
+function drawKokopelli(ctx, s, col) {
+  ctx.strokeStyle = col; ctx.fillStyle = col;
+  ctx.lineWidth = Math.max(1.5, s * 0.06);
+  // head
+  ctx.beginPath(); ctx.arc(-s*.05, -s*.65, s*.17, 0, Math.PI*2); ctx.fill();
+  // hair spikes
+  for (let i = 0; i < 6; i++) {
+    const a = -Math.PI*.7 + i * Math.PI*.18;
+    ctx.lineWidth = Math.max(1, s*.04);
+    ctx.beginPath(); ctx.moveTo(-s*.05 + Math.cos(a)*s*.17, -s*.65 + Math.sin(a)*s*.17);
+    ctx.lineTo(-s*.05 + Math.cos(a)*s*.38, -s*.65 + Math.sin(a)*s*.38); ctx.stroke();
+  }
+  // hump back body
+  ctx.lineWidth = Math.max(2, s * 0.07);
+  ctx.beginPath();
+  ctx.moveTo(-s*.05, -s*.48);
+  ctx.bezierCurveTo(s*.35, -s*.55, s*.45, -s*.2, s*.15, s*.1);
+  ctx.stroke();
+  // front body line
+  ctx.beginPath();
+  ctx.moveTo(-s*.05, -s*.48);
+  ctx.bezierCurveTo(-s*.2, -s*.2, -s*.15, s*.05, s*.0, s*.2);
+  ctx.stroke();
+  // flute (arms up + instrument)
+  ctx.lineWidth = Math.max(1.5, s*.06);
+  ctx.beginPath(); ctx.moveTo(s*.12, -s*.35); ctx.lineTo(-s*.1, -s*.6); ctx.stroke(); // arm up
+  ctx.beginPath(); ctx.moveTo(-s*.1, -s*.6); ctx.lineTo(s*.55, -s*.72); ctx.stroke(); // flute
+  // legs
+  ctx.beginPath(); ctx.moveTo(s*.07, s*.18); ctx.bezierCurveTo(-s*.1,s*.45,-s*.2,s*.6,-s*.1,s*.75); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(s*.1, s*.2);  ctx.bezierCurveTo(s*.25,s*.45,s*.3,s*.58,s*.22,s*.72); ctx.stroke();
+}
+
+// 3. SUN FACE — radiating rays with a face inside
+function drawSunFace(ctx, s, col) {
+  ctx.strokeStyle = col; ctx.fillStyle = col;
+  // rays — alternating long/short
+  for (let i = 0; i < 20; i++) {
+    const a = (i / 20) * Math.PI * 2;
+    const inner = s * (i % 2 === 0 ? 0.42 : 0.46);
+    const outer = s * (i % 2 === 0 ? 0.85 : 0.72);
+    ctx.lineWidth = Math.max(1.5, s * 0.05);
+    ctx.beginPath();
+    ctx.moveTo(Math.cos(a)*inner, Math.sin(a)*inner);
+    ctx.lineTo(Math.cos(a)*outer, Math.sin(a)*outer);
+    ctx.stroke();
+  }
+  // face circle
+  ctx.lineWidth = Math.max(2, s*.07);
+  ctx.beginPath(); ctx.arc(0, 0, s*.42, 0, Math.PI*2); ctx.stroke();
+  // eyes
+  ctx.lineWidth = Math.max(1.2, s*.05);
+  [-s*.14, s*.14].forEach(ex => {
+    ctx.beginPath(); ctx.arc(ex, -s*.08, s*.08, 0, Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(ex, -s*.08, s*.03, 0, Math.PI*2); ctx.fill();
+  });
+  // nose dot
+  ctx.beginPath(); ctx.arc(0, s*.06, s*.04, 0, Math.PI*2); ctx.fill();
+  // smile
+  ctx.beginPath(); ctx.arc(0, s*.04, s*.14, 0.2, Math.PI-.2); ctx.stroke();
+}
+
+// 4. TRIBAL FISH — long flowing fish with line texture + spirals
+function drawTribalFish(ctx, s, col) {
+  ctx.strokeStyle = col; ctx.fillStyle = col;
+  ctx.lineWidth = Math.max(1.2, s*.05);
+  // body outline
+  ctx.beginPath();
+  ctx.moveTo(s*.55, 0);
+  ctx.bezierCurveTo(s*.6,-s*.12, s*.3,-s*.35, -s*.1,-s*.3);
+  ctx.bezierCurveTo(-s*.5,-s*.25, -s*.6,-s*.05, -s*.6,s*.05);
+  ctx.bezierCurveTo(-s*.6,s*.15, -s*.5,s*.28, -s*.1,s*.28);
+  ctx.bezierCurveTo(s*.3,s*.3, s*.6,s*.12, s*.55,0);
+  ctx.stroke();
+  // tail fin
+  ctx.beginPath();
+  ctx.moveTo(-s*.58, 0);
+  ctx.bezierCurveTo(-s*.9,-s*.3, -s*1.1,0, -s*.9,s*.35);
+  ctx.bezierCurveTo(-s*.75,s*.5, -s*.6,s*.25, -s*.58,0);
+  ctx.stroke();
+  // top fin
+  ctx.beginPath();
+  ctx.moveTo(s*.1,-s*.3); ctx.bezierCurveTo(s*.2,-s*.7, s*.4,-s*.75, s*.5,-s*.1); ctx.stroke();
+  // body stripes
+  for (let i = -4; i <= 5; i++) {
+    const bx = i * s * 0.1;
+    ctx.lineWidth = Math.max(.8, s*.03);
+    ctx.beginPath(); ctx.moveTo(bx,-s*.28); ctx.lineTo(bx+s*.05,s*.25); ctx.stroke();
+  }
+  // spiral ornament on body
+  ctx.lineWidth = Math.max(1, s*.04);
+  ctx.beginPath();
+  for (let a=0;a<Math.PI*3.5;a+=0.15){
+    const r=(a/(Math.PI*3.5))*s*.18;
+    const x=s*.22+Math.cos(a)*r; const y=s*.02+Math.sin(a)*r;
+    a<0.15?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  // eye
+  ctx.lineWidth = Math.max(1.2, s*.05);
+  ctx.beginPath(); ctx.arc(s*.44, -s*.05, s*.07, 0, Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(s*.44, -s*.05, s*.03, 0, Math.PI*2); ctx.fill();
+}
+
+// 5. EYE OF HORUS
+function drawEyeHorus(ctx, s, col) {
+  ctx.strokeStyle = col; ctx.fillStyle = col;
+  ctx.lineWidth = Math.max(1.5, s*.07);
+  // eyebrow arch
+  ctx.beginPath();
+  ctx.moveTo(-s*.65, -s*.35);
+  ctx.bezierCurveTo(-s*.3,-s*.65, s*.3,-s*.65, s*.65,-s*.35);
+  ctx.stroke();
+  // eye white outer
+  ctx.beginPath();
+  ctx.moveTo(-s*.65, 0);
+  ctx.bezierCurveTo(-s*.3,-s*.35, s*.3,-s*.35, s*.65, 0);
+  ctx.bezierCurveTo(s*.3, s*.28, -s*.3, s*.28, -s*.65, 0);
+  ctx.stroke();
+  // pupil
+  ctx.beginPath(); ctx.arc(0, -s*.04, s*.2, 0, Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(0, -s*.04, s*.1, 0, Math.PI*2); ctx.fill();
+  // teardrop line down-right
+  ctx.lineWidth = Math.max(2, s*.08);
+  ctx.beginPath(); ctx.moveTo(s*.55, s*.1); ctx.lineTo(s*.65, s*.55); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(s*.65, s*.55); ctx.lineTo(s*.45, s*.75); ctx.stroke();
+  // curl left bottom
+  ctx.lineWidth = Math.max(1.5, s*.06);
+  ctx.beginPath();
+  ctx.moveTo(-s*.55, s*.15);
+  ctx.bezierCurveTo(-s*.7, s*.4, -s*.5, s*.6, -s*.2, s*.4);
+  ctx.stroke();
+  // inner corner mark
+  ctx.beginPath(); ctx.moveTo(-s*.6, s*.05); ctx.lineTo(-s*.8, s*.3); ctx.stroke();
+}
+
+// 6. TRIBAL MANTA RAY — flowing tribal fills
+function drawMantraRay(ctx, s, col) {
+  ctx.strokeStyle = col; ctx.fillStyle = col;
+  ctx.lineWidth = Math.max(1.5, s*.06);
+  // wing outline
+  ctx.beginPath();
+  ctx.moveTo(0, -s*.15);
+  ctx.bezierCurveTo(-s*.5,-s*.55, -s*1.2,-s*.4, -s*1.4,s*.1);
+  ctx.bezierCurveTo(-s*1.2,s*.45, -s*.5,s*.35, 0,s*.2);
+  ctx.bezierCurveTo(s*.5,s*.35, s*1.2,s*.45, s*1.4,s*.1);
+  ctx.bezierCurveTo(s*1.2,-s*.4, s*.5,-s*.55, 0,-s*.15);
+  ctx.stroke();
+  // tail
+  ctx.lineWidth = Math.max(1.2, s*.05);
+  ctx.beginPath(); ctx.moveTo(0, s*.2); ctx.bezierCurveTo(s*.05,s*.6, -s*.05,s*.8, s*.02,s*1.1); ctx.stroke();
+  // tribal swirl patterns inside
+  const swirls = [[-s*.5,0],[s*.5,0],[0,-s*.12]];
+  swirls.forEach(([ox,oy]) => {
+    ctx.lineWidth = Math.max(1, s*.04);
+    ctx.beginPath();
+    for(let a=0;a<Math.PI*3;a+=0.15){
+      const r=(a/(Math.PI*3))*s*.2;
+      const x=ox+Math.cos(a)*r; const y=oy+Math.sin(a)*r;
+      a<0.15?ctx.moveTo(x,y):ctx.lineTo(x,y);
     }
-  };
+    ctx.stroke();
+  });
+  // body dots
+  [[0,-s*.05],[s*.25,s*.06],[-s*.25,s*.06]].forEach(([dx,dy])=>{
+    ctx.beginPath(); ctx.arc(dx,dy,s*.04,0,Math.PI*2); ctx.fill();
+  });
 }
 
-const W = () => window.innerWidth;
-const H = () => window.innerHeight;
+/* ── Orbit table for landing symbols ── */
+/* All symbols orbit their anchor points, drawn in dark amber/brown to match palette */
+const LANDING_SYMS = [
+  // cx/cy = fraction of viewport, orbit=px, speed=rad/ms, phase, size, alpha
+  {cx:.10, cy:.20, orbit:80,  speed:.00014, phase:0,   size:32, alpha:.55, fn:(c,s)=>drawSpiralSun(c,s,'#3d1800')},
+  {cx:.90, cy:.18, orbit:75,  speed:.00017, phase:1.8, size:30, alpha:.55, fn:(c,s)=>drawSpiralSun(c,s,'#3d1800')},
+  {cx:.08, cy:.70, orbit:70,  speed:.00012, phase:3.2, size:28, alpha:.50, fn:(c,s)=>drawSpiralSun(c,s,'#4a1e00')},
+  {cx:.92, cy:.68, orbit:70,  speed:.00015, phase:5.0, size:28, alpha:.50, fn:(c,s)=>drawSpiralSun(c,s,'#4a1e00')},
 
-// Create orbiters after layout
-function initOrbiters() {
-  orbiters.length = 0;
-  const w = W(), h = H();
-  orbiters.push(makePlanet(w*0.12, h*0.15, 120, 0.00018, '#9a7aff', '#7a5aff', 18, 0));
-  orbiters.push(makePlanet(w*0.88, h*0.08, 90, 0.00022, '#C9952A', '#e8b050', 14, 1.2));
-  orbiters.push(makePlanet(w*0.5, h*0.55, 200, 0.00012, '#2A7C6F', '#4ab8a8', 22, 2.1));
+  {cx:.22, cy:.12, orbit:65,  speed:.00016, phase:2.5, size:36, alpha:.50, fn:(c,s)=>drawKokopelli(c,s,'#2a0c00')},
+  {cx:.78, cy:.14, orbit:60,  speed:.00018, phase:0.4, size:34, alpha:.50, fn:(c,s)=>drawKokopelli(c,s,'#2a0c00')},
 
-  const types = ['ankh','pyramid','shell','star','ufo','turtle','ray','shell','star','ankh','pyramid'];
-  const positions = [
-    [w*.07, h*.3], [w*.93, h*.25], [w*.15, h*.65], [w*.85, h*.55],
-    [w*.3, h*.18], [w*.7, h*.12], [w*.04, h*.8], [w*.96, h*.7],
-    [w*.45, h*.9], [w*.6, h*.75], [w*.2, h*.45]
+  {cx:.50, cy:.08, orbit:90,  speed:.00013, phase:1.1, size:34, alpha:.52, fn:(c,s)=>drawSunFace(c,s,'#3d1800')},
+  {cx:.50, cy:.88, orbit:80,  speed:.00011, phase:4.2, size:32, alpha:.50, fn:(c,s)=>drawSunFace(c,s,'#3d1800')},
+
+  {cx:.12, cy:.45, orbit:65,  speed:.00015, phase:0.9, size:38, alpha:.50, fn:(c,s)=>drawTribalFish(c,s,'#2d1000')},
+  {cx:.88, cy:.42, orbit:60,  speed:.00017, phase:3.5, size:36, alpha:.50, fn:(c,s)=>drawTribalFish(c,s,'#2d1000')},
+
+  {cx:.30, cy:.82, orbit:70,  speed:.00014, phase:2.0, size:34, alpha:.52, fn:(c,s)=>drawEyeHorus(c,s,'#3d1800')},
+  {cx:.70, cy:.80, orbit:65,  speed:.00016, phase:5.5, size:32, alpha:.52, fn:(c,s)=>drawEyeHorus(c,s,'#3d1800')},
+
+  {cx:.18, cy:.55, orbit:75,  speed:.00013, phase:1.5, size:40, alpha:.50, fn:(c,s)=>drawMantraRay(c,s,'#2d1000')},
+  {cx:.82, cy:.55, orbit:70,  speed:.00015, phase:4.0, size:38, alpha:.50, fn:(c,s)=>drawMantraRay(c,s,'#2d1000')},
+];
+
+let symSpin = 0;
+function renderSymbols(ts) {
+  const W = sc.width, H = sc.height;
+  sctx.clearRect(0, 0, W, H);
+  LANDING_SYMS.forEach(o => {
+    const angle = o.phase + ts * o.speed;
+    const x = o.cx * W + Math.cos(angle) * o.orbit;
+    const y = o.cy * H + Math.sin(angle) * o.orbit;
+    sctx.save();
+    sctx.globalAlpha = o.alpha;
+    sctx.translate(x, y);
+    sctx.rotate(ts * 0.00025);
+    o.fn(sctx, o.size);
+    sctx.restore();
+  });
+  requestAnimationFrame(renderSymbols);
+}
+requestAnimationFrame(renderSymbols);
+
+/* ═══════════════════════════════════════════════
+   REVEAL RESUME on person click
+═══════════════════════════════════════════════ */
+function revealResume() {
+  document.getElementById('landing').classList.add('hide');
+  const resume = document.getElementById('resume');
+  resume.style.display = 'block';
+  // Small delay lets display:block paint before transition kicks in
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      resume.classList.add('show');
+    });
+  });
+  // Start resume orbit canvas
+  startResumeOrbits();
+  // Allow scrolling
+  document.body.style.overflow = '';
+  // Clean up landing after transition
+  setTimeout(() => {
+    document.getElementById('landing').style.display = 'none';
+  }, 1400);
+}
+
+// Prevent scrolling on landing
+document.body.style.overflow = 'hidden';
+document.getElementById('resume').style.display = 'none';
+
+/* ═══════════════════════════════════════════════
+   RESUME ORBIT CANVAS — same symbols in night palette
+═══════════════════════════════════════════════ */
+function startResumeOrbits() {
+  const rc   = document.getElementById('resumeOrbitCanvas');
+  const rctx = rc.getContext('2d');
+  rc.width  = window.innerWidth;
+  rc.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    rc.width  = window.innerWidth;
+    rc.height = window.innerHeight;
+  });
+
+  const RESUME_SYMS = [
+    {cx:.08, cy:.15, orbit:80,  speed:.00015, phase:0,   size:28, alpha:.42, spin:.00025, fn:(c,s)=>drawSpiralSun(c,s,'#C9952A')},
+    {cx:.92, cy:.12, orbit:70,  speed:.00018, phase:2.1, size:26, alpha:.42, spin:.00025, fn:(c,s)=>drawSpiralSun(c,s,'#C9952A')},
+    {cx:.06, cy:.80, orbit:65,  speed:.00013, phase:3.5, size:24, alpha:.40, spin:.00025, fn:(c,s)=>drawSpiralSun(c,s,'#C9952A')},
+    {cx:.94, cy:.75, orbit:65,  speed:.00016, phase:5.2, size:24, alpha:.40, spin:.00025, fn:(c,s)=>drawSpiralSun(c,s,'#C9952A')},
+
+    {cx:.20, cy:.08, orbit:60,  speed:.00017, phase:1.2, size:32, alpha:.40, spin:.00028, fn:(c,s)=>drawKokopelli(c,s,'#D4845A')},
+    {cx:.80, cy:.90, orbit:55,  speed:.00019, phase:4.1, size:30, alpha:.40, spin:.00028, fn:(c,s)=>drawKokopelli(c,s,'#D4845A')},
+
+    {cx:.50, cy:.05, orbit:80,  speed:.00012, phase:.8,  size:30, alpha:.42, spin:.00022, fn:(c,s)=>drawSunFace(c,s,'#C9952A')},
+    {cx:.50, cy:.95, orbit:75,  speed:.00011, phase:3.8, size:28, alpha:.40, spin:.00022, fn:(c,s)=>drawSunFace(c,s,'#C9952A')},
+
+    {cx:.10, cy:.45, orbit:60,  speed:.00014, phase:2.2, size:34, alpha:.42, spin:.00020, fn:(c,s)=>drawTribalFish(c,s,'#7CC4BA')},
+    {cx:.90, cy:.42, orbit:55,  speed:.00016, phase:0.5, size:32, alpha:.40, spin:.00020, fn:(c,s)=>drawTribalFish(c,s,'#7CC4BA')},
+
+    {cx:.28, cy:.85, orbit:65,  speed:.00013, phase:1.8, size:30, alpha:.42, spin:.00030, fn:(c,s)=>drawEyeHorus(c,s,'#C9952A')},
+    {cx:.72, cy:.82, orbit:60,  speed:.00015, phase:5.0, size:28, alpha:.42, spin:.00030, fn:(c,s)=>drawEyeHorus(c,s,'#C9952A')},
+
+    {cx:.15, cy:.55, orbit:70,  speed:.00012, phase:3.0, size:36, alpha:.42, spin:.00018, fn:(c,s)=>drawMantraRay(c,s,'#8ab4d4')},
+    {cx:.85, cy:.52, orbit:65,  speed:.00014, phase:1.0, size:34, alpha:.40, spin:.00018, fn:(c,s)=>drawMantraRay(c,s,'#8ab4d4')},
   ];
-  positions.forEach(([cx,cy],i) => {
-    const r = 60 + Math.random()*120;
-    const speed = 0.0001 + Math.random()*0.00015;
-    orbiters.push(makeGlyph(cx, cy, r, speed, Math.random()*Math.PI*2, types[i%types.length]));
-  });
+
+  function renderResume(ts) {
+    const W = rc.width, H = rc.height;
+    rctx.clearRect(0, 0, W, H);
+    RESUME_SYMS.forEach(o => {
+      const angle = o.phase + ts * o.speed;
+      const x = o.cx * W + Math.cos(angle) * o.orbit;
+      const y = o.cy * H + Math.sin(angle) * o.orbit;
+      rctx.save();
+      rctx.globalAlpha = o.alpha;
+      rctx.translate(x, y);
+      rctx.rotate(ts * o.spin);
+      o.fn(rctx, o.size);
+      rctx.restore();
+    });
+    requestAnimationFrame(renderResume);
+  }
+  requestAnimationFrame(renderResume);
 }
 
-let animFrame;
-function animate(t) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  orbiters.forEach(o => {
-    const angle = o.phase + t * o.speed;
-    const x = o.cx + Math.cos(angle) * o.r;
-    const y = o.cy + Math.sin(angle) * o.r;
-    o.draw(x, y, t);
-  });
-  animFrame = requestAnimationFrame(animate);
-}
-
-window.addEventListener('load', () => {
-  initOrbiters();
-  animate(0);
-});
-window.addEventListener('resize', () => { initOrbiters(); });
-
-/* ══════════════════════════════════════
+/* ═══════════════════════════════════════════════
    NAV
-══════════════════════════════════════ */
+═══════════════════════════════════════════════ */
 function show(id, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
 }
 
-/* ══════════════════════════════════════
+/* ═══════════════════════════════════════════════
    PROJECT DATA
-══════════════════════════════════════ */
+═══════════════════════════════════════════════ */
 const projects = {
-  lu: {
-    animal: '🦅',
-    title: 'LU Campus Safety App',
-    sub: 'React Native · Java Spring Boot · MySQL · AWS · Docker',
-    desc: 'A production-grade mobile application deployed on both the Apple App Store and Google Play Store as "LU Campus Safety," officially adopted by Lawrence University. The platform handles real-time workflows between students, faculty, and campus safety officers for facility access, ride services, and safety assistance.',
-    bullets: [
-      'Built iOS and Android apps with React Native; backend in Java Spring Boot with MySQL database',
-      'Deployed on AWS using EC2, RDS, ALB, ASG, EventBridge, S3, and Lambda for a robust cloud architecture',
-      'Docker-based CI/CD pipeline automated with GitHub Actions for zero-downtime deployments',
-      'Integrated Google Maps APIs for live location sharing, geocoding, routing, and address search',
-      'Built a React-based admin website deployed on AWS CloudFront for Campus Safety office members',
-      'Real-time request workflows for ride-catching, facility access, and safety assistance'
-    ],
-    github: 'https://github.com/M1nJun',
-    store: 'https://apps.apple.com',
-    // ADD YOUR MEDIA HERE — replace these placeholders with real paths once you add files
-    media: [
-      // { type: 'image', src: 'media/lu-app-1.png', caption: 'Map screen with live location' },
-      // { type: 'image', src: 'media/lu-app-2.png', caption: 'Ride request flow' },
-      // { type: 'video', src: 'media/lu-demo.mp4', caption: 'App walkthrough' },
-    ]
-  },
-  cv: {
-    animal: '🔬',
-    title: 'EV Battery Vision System',
-    sub: 'Python · Deep Learning · Computer Vision · OpenCV',
-    desc: 'Computer vision inspection systems for EV (electric vehicle) and ESS (energy storage system) battery manufacturing at LG Energy Solution. Combines deep learning neural networks with rule-based algorithms to detect manufacturing defects at scale on a live factory floor.',
-    bullets: [
-      'Developed and maintained multiple inspection pipelines for battery cell manufacturing',
-      'Hybrid approach: deep learning models for complex pattern recognition + rule-based algorithms for deterministic checks',
-      'Deployed in a production manufacturing environment with real quality-control impact',
-      'Worked on-site in Holland, MI — directly integrated with factory automation systems'
-    ],
-    media: [
-      // { type: 'image', src: 'media/cv-1.png', caption: 'Defect detection output' },
-      // { type: 'video', src: 'media/cv-demo.mp4', caption: 'Pipeline demo' },
-    ]
-  },
-  fitness: {
-    animal: '🐆',
-    title: 'AI Fitness Coach — HackHarvard 2023',
-    sub: 'Ionic React · Flask · LangChain · OpenAI · Terra API',
-    desc: 'Built in 24 hours at HackHarvard 2023 with a team of four. A personalized AI coach that generates customized workout plans based on fitness goals, health data, and wearable device metrics like sleep patterns and caloric expenditure.',
-    bullets: [
-      'Ionic React frontend with an intuitive, mobile-first interface',
-      'Flask backend integrated with OpenAI via LangChain for personalized plan generation',
-      'Terra API for collecting wearable device data — sleep, calories, heart rate',
-      'Hackathon project — conceived, built, and demoed in under 24 hours at Harvard University'
-    ],
-    github: 'https://github.com/M1nJun',
-    media: [
-      // { type: 'image', src: 'media/fitness-1.png', caption: 'Dashboard' },
-      // { type: 'image', src: 'media/fitness-2.png', caption: 'Workout plan output' },
-    ]
-  },
-  surfaces: {
-    animal: '🦬',
-    title: 'Stable Surfaces Research',
-    sub: 'C++ · Python · Graph Theory · Combinatorics · Mathematics',
-    desc: 'Summer research at Lawrence University exploring the intersection of mathematics and computer science. Developed a computational program that generates new examples of mathematical objects known as stable surfaces — previously found only by hand.',
-    bullets: [
-      'Led research independently over a 3-month period (Jun–Sep 2023)',
-      'Applied graph theory and combinatorics to represent and enumerate surface structures',
-      'C++ for the core computation engine; Python for data analysis and visualization',
-      'Produced genuinely new mathematical examples not previously documented in literature'
-    ],
-    media: [
-      // { type: 'image', src: 'media/surfaces-1.png', caption: 'Graph representation' },
-    ]
-  },
-  malloc: {
-    animal: '🐘',
-    title: 'Mock Malloc',
-    sub: 'C · Systems Programming · Memory Management',
-    desc: 'A custom implementation of the malloc() function from the C standard library — written entirely from scratch in C, enabling dynamic memory allocation of user-defined sizes directly on the heap without relying on the standard library.',
-    bullets: [
-      'Implemented the full malloc/free contract: allocate, reallocate, free',
-      'Manages the heap directly using sbrk() / brk() system calls',
-      'Handles memory fragmentation, coalescing of free blocks, and alignment requirements',
-      'Deep dive into how memory allocators actually work at the systems level'
-    ],
-    github: 'https://github.com/M1nJun',
-    media: [
-      // { type: 'image', src: 'media/malloc-1.png', caption: 'Heap layout diagram' },
-    ]
-  },
-  autocomplete: {
-    animal: '🐬',
-    title: 'Word AutoComplete',
-    sub: 'Python · TensorFlow · Keras · NumPy · LSTM',
-    desc: 'A text modeling and prediction pipeline built in Python that trains an LSTM (Long Short-Term Memory) neural network on a large text corpus to predict the next word in a sequence — the foundation behind autocomplete features.',
-    bullets: [
-      'Custom data preprocessing pipeline: tokenization, cleaning, sequence generation',
-      'Numerical encoding of text vocabulary with custom mapping layers',
-      'LSTM architecture implemented in Keras / TensorFlow trained on large text corpus',
-      'NumPy for efficient matrix operations throughout the preprocessing and inference pipeline'
-    ],
-    github: 'https://github.com/M1nJun',
-    media: [
-      // { type: 'image', src: 'media/lstm-1.png', caption: 'Training loss curve' },
-    ]
-  }
+  lu:{animal:'🦅',title:'LU Campus Safety App',sub:'React Native · Java Spring Boot · MySQL · AWS · Docker',
+    desc:'A production-grade mobile application on the Apple App Store and Google Play as "LU Campus Safety," adopted by Lawrence University. Handles real-time workflows between students, faculty, and officers for facility access, rides, and safety.',
+    bullets:['Built iOS and Android apps with React Native; backend in Java Spring Boot with MySQL','Deployed on AWS using EC2, RDS, ALB, ASG, EventBridge, S3, Lambda','Docker CI/CD pipeline automated with GitHub Actions for zero-downtime deploys','Google Maps APIs for live location sharing, geocoding, routing, address search','React admin website deployed on AWS CloudFront for Campus Safety office','Real-time workflows for ride-catching, facility access, and safety assistance'],
+    github:'https://github.com/M1nJun',store:'https://apps.apple.com',
+    media:[
+      // { type:'image', src:'media/lu-1.png', caption:'Map with live location' },
+      // { type:'video', src:'media/lu-demo.mp4', caption:'App walkthrough' },
+    ]},
+  cv:{animal:'🔬',title:'EV Battery Vision System',sub:'Python · Deep Learning · Computer Vision',
+    desc:'Computer vision inspection systems for EV and ESS battery manufacturing at LG Energy Solution. Combines deep learning with rule-based algorithms for defect detection at scale.',
+    bullets:['Multiple inspection pipelines for battery cell manufacturing','Deep learning + rule-based hybrid for precision quality control','Deployed in production, integrated with factory automation systems'],media:[]},
+  fitness:{animal:'🐆',title:'AI Fitness Coach — HackHarvard 2023',sub:'Ionic React · Flask · LangChain · OpenAI · Terra API',
+    desc:'Built in 24 hours at HackHarvard 2023. Personalized AI workout plans based on fitness goals and wearable device data.',
+    bullets:['Ionic React mobile-first frontend','Flask + LangChain/OpenAI backend for personalized plan generation','Terra API for wearable data — sleep, calories, heart rate','Demoed at Harvard in under 24 hours'],
+    github:'https://github.com/M1nJun',media:[]},
+  surfaces:{animal:'🦬',title:'Stable Surfaces Research',sub:'C++ · Python · Graph Theory · Combinatorics',
+    desc:'Summer research at Lawrence University generating new examples of stable surfaces — mathematical objects previously found only by hand.',
+    bullets:['3-month independent research (Jun–Sep 2023)','Graph theory + combinatorics in C++ and Python','Produced genuinely new mathematical examples'],media:[]},
+  malloc:{animal:'🐘',title:'Mock Malloc',sub:'C · Systems · Memory Management',
+    desc:'Custom malloc() from scratch in C — dynamic heap allocation, fragmentation handling, block coalescing.',
+    bullets:['Full malloc/free/realloc contract','Heap management via sbrk()/brk()','Handles fragmentation, coalescing, alignment'],
+    github:'https://github.com/M1nJun',media:[]},
+  autocomplete:{animal:'🐬',title:'Word AutoComplete',sub:'Python · TensorFlow · Keras · LSTM · NumPy',
+    desc:'LSTM text prediction pipeline trained on a large corpus for next-word prediction.',
+    bullets:['Custom preprocessing: tokenization, encoding, sequences','LSTM architecture in Keras/TensorFlow','NumPy for matrix ops throughout'],
+    github:'https://github.com/M1nJun',media:[]},
 };
 
-/* ══════════════════════════════════════
+/* ═══════════════════════════════════════════════
    MODAL
-══════════════════════════════════════ */
+═══════════════════════════════════════════════ */
 function openProject(id) {
   const p = projects[id];
   document.getElementById('m-animal').textContent = p.animal;
-  document.getElementById('m-title').textContent = p.title;
-  document.getElementById('m-sub').textContent = p.sub;
-  document.getElementById('m-desc').textContent = p.desc;
-
-  const bullets = document.getElementById('m-bullets');
-  bullets.innerHTML = p.bullets.map(b => `<li>${b}</li>`).join('');
-
+  document.getElementById('m-title').textContent  = p.title;
+  document.getElementById('m-sub').textContent    = p.sub;
+  document.getElementById('m-desc').textContent   = p.desc;
+  document.getElementById('m-bullets').innerHTML  = p.bullets.map(b=>`<li>${b}</li>`).join('');
   const links = document.getElementById('m-links');
-  links.innerHTML = '';
-  if (p.github) links.innerHTML += `<a class="modal-link gh" href="${p.github}" target="_blank">⌥ GitHub</a>`;
-  if (p.store)  links.innerHTML += `<a class="modal-link" href="${p.store}" target="_blank">↗ App Store</a>`;
-  if (p.demo)   links.innerHTML += `<a class="modal-link" href="${p.demo}"  target="_blank">↗ Live Demo</a>`;
-
-  // Media section
+  links.innerHTML='';
+  if(p.github) links.innerHTML+=`<a class="modal-link gh" href="${p.github}" target="_blank">⌥ GitHub</a>`;
+  if(p.store)  links.innerHTML+=`<a class="modal-link"    href="${p.store}"  target="_blank">↗ App Store</a>`;
+  if(p.demo)   links.innerHTML+=`<a class="modal-link"    href="${p.demo}"   target="_blank">↗ Live Demo</a>`;
   const mediaEl = document.getElementById('m-media');
-  if (p.media && p.media.length > 0) {
-    const grid = p.media.map((m,i) => {
-      if (m.type === 'video') {
-        return `<div class="media-item">
-          <video src="${m.src}" controls playsinline style="max-height:200px;"></video>
-          <div class="media-caption">${m.caption||''}</div>
-        </div>`;
-      }
-      return `<div class="media-item">
-        <img src="${m.src}" alt="${m.caption||''}" loading="lazy" style="max-height:200px;">
-        <div class="media-caption">${m.caption||''}</div>
-      </div>`;
+  if(p.media && p.media.length>0){
+    const grid=p.media.map(m=>{
+      if(m.type==='video') return `<div class="media-item"><video src="${m.src}" controls playsinline></video><div class="media-caption">${m.caption||''}</div></div>`;
+      return `<div class="media-item"><img src="${m.src}" alt="${m.caption||''}" loading="lazy"><div class="media-caption">${m.caption||''}</div></div>`;
     }).join('');
-    mediaEl.innerHTML = `
-      <p class="modal-desc-title">Scrapbook</p>
-      <div class="media-grid">${grid}</div>`;
+    mediaEl.innerHTML=`<p class="modal-desc-title">Scrapbook</p><div class="media-grid">${grid}</div>`;
   } else {
-    mediaEl.innerHTML = `
-      <p class="modal-desc-title">Scrapbook</p>
-      <div class="upload-hint">
-        <strong>Add your photos &amp; videos here!</strong><br>
-        Create a <code>media/</code> folder next to <code>index.html</code>,<br>
-        drop your files in, then uncomment the <code>media:</code> array<br>
-        inside <code>projects['${id}']</code> in the script below.
-      </div>`;
+    mediaEl.innerHTML=`<p class="modal-desc-title">Scrapbook</p>
+      <div class="upload-hint"><strong>Add photos &amp; videos here!</strong><br>
+      Create a <code style="color:var(--gold)">media/</code> folder, drop in files,<br>
+      then uncomment the <code style="color:var(--gold)">media:</code> entries in <code style="color:var(--gold)">projects['${id}']</code>.</div>`;
   }
-
   document.getElementById('modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
-
-function closeModal() {
-  document.getElementById('modal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function maybeClose(e) {
-  if (e.target === document.getElementById('modal')) closeModal();
-}
-document.addEventListener('keydown', e => { if (e.key==='Escape') closeModal(); });
+function closeModal(){document.getElementById('modal').classList.remove('open');document.body.style.overflow='';}
+function maybeClose(e){if(e.target===document.getElementById('modal'))closeModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 </script>
 </body>
 </html>
