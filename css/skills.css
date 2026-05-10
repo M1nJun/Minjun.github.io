@@ -1,0 +1,60 @@
+/* ============================================================
+   SKILLS.CSS — Power-Ups / Technical Skills screen
+   ============================================================ */
+
+/* ── CATEGORY LABEL ── */
+.skills-cat {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--yellow);
+  text-shadow: var(--glow-yellow);
+  margin: 2rem 0 1rem;
+  letter-spacing: 2px;
+}
+.skills-cat:first-of-type { margin-top: 0; }
+
+/* ── GRID ── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+/* ── CHIP ── */
+.skill-chip {
+  border: 2px solid var(--border);
+  padding: 0.8rem 1rem;
+  text-align: center;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--text);          /* was --dim, now readable */
+  background: var(--panel);
+  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 1px;
+}
+
+/* Animated underline on hover */
+.skill-chip::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--cyan);
+  transition: width 0.35s ease;
+}
+.skill-chip:hover {
+  color: var(--cyan);
+  border-color: var(--cyan);
+  box-shadow: 0 0 16px rgba(0,245,255,0.3);
+  transform: translateY(-3px);
+}
+.skill-chip:hover::after { width: 100%; }
+
+.skill-icon {
+  font-size: 26px;
+  display: block;
+  margin-bottom: 0.5rem;
+}
